@@ -21,9 +21,12 @@
     <nav>
         <div class="nav-wrapper">
             <a href="#" id="brand_title" class="brand-logo center">Weather Dashboard</a>
-            <ul id="nav-mobile" class="right">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li>
-                    <a href="https://home.openweathermap.org/" class=>API</a>
+                    <a href="https://home.openweathermap.org/">WEATHER API</a>
+                </li>
+                <li>
+                    <a href="https://restcountries.eu">GEO API</a>
                 </li>
             </ul>
         </div>
@@ -31,24 +34,27 @@
 
     <!-- Page Layout here -->
     <div class="row">
-
         <div class="col s3">
-          <!-- Grey navigation panel -->
-            <div class="section no-pad-bot">
+            <section class="section no-pad-bot">
                 <form>
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">add_location</i>
-                            <input type="text" id="city_search_input" class="materialize-input">
+                            <input type="text" id="city_search_input" class="materialize-input"
+                            onkeyup="this.setAttribute('data-choice', this.value);">
                             <label for="city_search_input">Search City</label>
                         </div>
                         <div class="col s-12 offset-s3">
-                            <a href="http://materializecss.com/getting-started.html" id="download-button" 
-                            class="btn-large waves-effect waves-light teal lighten-3" onsubmit="runSearch();">Search</a>
+                            <button id="search-button" 
+                            class="btn-large waves-effect waves-light teal lighten-3" type="submit" name="submit" >Search</button>
                         </div>
                     </div>
                 </form>
-            </div>
+            </section>
+            <section class="divider"></section>
+            <section class="" id="history_list">
+                
+            </section>
         </div>
   
         <div class="col s9">
@@ -74,13 +80,11 @@
             </div>
           </div>
         </div>
-      </div>
-            
-
+    </div>
 
   
 
-<div class="sidenav-overlay"></div><div class="drag-target"></div>
+
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

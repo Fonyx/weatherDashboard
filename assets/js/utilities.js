@@ -27,7 +27,15 @@ function buildCountryAutocomplete(countries_json){
   $(document).ready(function(){
     $('#city_search_input').autocomplete({
       data: countries_json,
+      onAutocomplete: function(val) {
+      // Callback function when value is autocompleted.
+      let searchInputEl = $('#city_search_input');
+      // set the data-value to the autocomplete value
+      searchInputEl.attr('data-choice', val);
+      console.log('Added autocomplete choice to the data-value of the input');
+      //Here you then can do whatever you want, val tells you what got clicked so you can push to another page etc...
+    },
     });
   });
-  console.log('built autocomplete');
 }
+
