@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <!-- reset css -->
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <!-- load the materialize css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- add material design icons from google fonts-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- add custom styles -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- javascript runtime load-->
+    <script defer src="./assets/js/app.js"></script>
+</head>
+<body>
+  
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" id="brand_title" class="brand-logo center">Weather Dashboard</a>
+            <ul id="nav-mobile" class="right">
+                <li>
+                    <a href="https://home.openweathermap.org/" class=>API</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Layout here -->
+    <div class="row">
+
+        <div class="col s3">
+          <!-- Grey navigation panel -->
+            <div class="section no-pad-bot">
+                <form>
+                    <div class="row">
+                        <div class="input-field">
+                            <i class="material-icons prefix">add_location</i>
+                            <input type="text" id="city_search_input" class="materialize-input">
+                            <label for="city_search_input">Search City</label>
+                        </div>
+                        <div class="col s-12 offset-s3">
+                            <a href="http://materializecss.com/getting-started.html" id="download-button" 
+                            class="btn-large waves-effect waves-light teal lighten-3" onsubmit="runSearch();">Search</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+  
+        <div class="col s9">
+          <!-- Current city Today goes here  -->
+          <div id="index-banner" class="parallax-container">
+            <div class="section no-pad-bot">
+              <div class="container">
+                <br><br>
+                <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
+                <div class="row center">
+                  <h5 class="header white-text col s12 light">A modern responsive front-end framework based on Material Design</h5>
+                </div>
+                <div class="row center">
+                  <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+                </div>
+                <br><br>
+        
+              </div>
+            </div>
+            <div class="parallax">
+                <img src="https://media-exp1.licdn.com/dms/image/C4E1BAQHJ8oLaOh6Uww/company-background_10000/0?e=2159024400&v=beta&t=K00K5auBkPqnn02BwgUx8d-fWMFxDAcQiYuSuLNYVGo" 
+                alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
+            </div>
+          </div>
+        </div>
+      </div>
+            
+
+
+  
+
+<div class="sidenav-overlay"></div><div class="drag-target"></div>
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- optimized loading of materialize-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- custom javascript utilities-->
+    <script src="./assets/js/utilities.js"></script>
+    <script src="./assets/js/utilities.test.js"></script>
+</body>
+</html>
