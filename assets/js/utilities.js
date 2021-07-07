@@ -27,11 +27,11 @@ fetch(countries_api, {
 // add autocomplete to the city entry input
 function buildCountryAutocomplete(countries_json){
   $(document).ready(function(){
-    $('#city_search_input').autocomplete({
+    $('#country_search_input').autocomplete({
       data: countries_json,
       onAutocomplete: function(val) {
       // Callback function when value is autocompleted.
-      let searchInputEl = $('#city_search_input');
+      let searchInputEl = $('#country_search_input');
       // set the data-value to the autocomplete value
       searchInputEl.attr('data-choice', val);
       console.log(`Added autocomplete choice ${val} to the data-value of the search input`);

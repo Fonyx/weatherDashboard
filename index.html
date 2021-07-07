@@ -25,9 +25,6 @@
                 <li>
                     <a href="https://home.openweathermap.org/">WEATHER API</a>
                 </li>
-                <li>
-                    <a href="https://restcountries.eu">GEO API</a>
-                </li>
             </ul>
         </div>
     </nav>
@@ -41,6 +38,12 @@
                         <div class="input-field">
                             <i class="material-icons prefix">add_location</i>
                             <input type="text" id="city_search_input" class="materialize-input"
+                            onkeyup="this.setAttribute('data-choice', this.value);">
+                            <label for="city_search_input">Search City</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">add_location</i>
+                            <input type="text" id="country_search_input" class="materialize-input"
                             onkeyup="this.setAttribute('data-choice', this.value);">
                             <label for="city_search_input">Search Country</label>
                         </div>
@@ -75,7 +78,7 @@
               </div>
             </div>
             <div class="parallax">
-                <img src="https://media-exp1.licdn.com/dms/image/C4E1BAQHJ8oLaOh6Uww/company-background_10000/0?e=2159024400&v=beta&t=K00K5auBkPqnn02BwgUx8d-fWMFxDAcQiYuSuLNYVGo" 
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSctNamMQ6igHceryT92Sm7HLgnW4fl6Xu6gfoXjH9V0UHiebcF5gZ7d28T-yrb7N0aOOp0Cu1zBup_hQ&usqp=CAU" 
                 alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
             </div>
           </div>
