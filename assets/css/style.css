@@ -1,5 +1,6 @@
 :root {
     --teal: #26a69a;
+    --dark_teal: #155e56;
 }
 
 #brand_title{
@@ -9,7 +10,7 @@
 
 /* label color */
 .input-field label {
-color: #1D7E75;
+color: var(--dark_teal);
 }
 /* label focus color */
 .input-field input[type=text]:focus + label {

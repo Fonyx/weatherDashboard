@@ -4,28 +4,55 @@ $(document).ready(function(){
   $('.parallax').parallax();
 });
 
+let countryInputEL = $('#country_search_input');
+countryInputEL.on('change', function(){
+  countryChoiceIndex = -1;
+  console.log('resetting countryChoiceIndex to -1 since autofill was not done');
+})
+
 let countriesApiRoot = "https://restcountries.eu/"
 let countries_api = countriesApiRoot + "rest/v2/all"
 
+countries = {
+  names_null: [],
+  names: [],
+  alpha2: [],
+  alpha3: [],
+  cioc: [],
+}
 
+countryChoiceIndex = -1;
+
+// query the countries api for a list of countries
 fetch(countries_api, {
     cache: 'default',
 })
 .then(function(response){
     return response.json();
 }).then(function(data){
-  let countries = [];
   // build a countries object and add country names
     for(let i=0; i<data.length; i++){
       // append country name with null for the optional image url
-      countries[data[i].name] = null;
+      countries.names_null[data[i].name] = null;
+      countries.names[i] = data[i].name;
+      countries.alpha2[i] = data[i].alpha2Code;
+      countries.alpha3[i] = data[i].alpha3Code;
+      countries.cioc[i] = data[i].cioc;
     }
     // make the autocomplete use the country list
-    buildCountryAutocomplete(countries);
+    buildCountryAutocompleteOnLoad(countries.names_null);
 });
 
+function getCountryIndexFromCountryName(str){
+  for(let i=0; i < countries.names.length; i++){
+    if(countries.names[i] === str){
+      return i;
+    }
+  }
+}
+
 // add autocomplete to the city entry input
-function buildCountryAutocomplete(countries_json){
+function buildCountryAutocompleteOnLoad(countries_json){
   $(document).ready(function(){
     $('#country_search_input').autocomplete({
       data: countries_json,
@@ -34,8 +61,9 @@ function buildCountryAutocomplete(countries_json){
       let searchInputEl = $('#country_search_input');
       // set the data-value to the autocomplete value
       searchInputEl.attr('data-choice', val);
+      countryChoiceIndex = getCountryIndexFromCountryName(val);
+      console.log(`Country index is: ${countryChoiceIndex}`)
       console.log(`Added autocomplete choice ${val} to the data-value of the search input`);
-      //Here you then can do whatever you want, val tells you what got clicked so you can push to another page etc...
     },
     });
   });
