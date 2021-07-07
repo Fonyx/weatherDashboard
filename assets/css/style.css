@@ -7,6 +7,10 @@
     cursor: default;
 }
 
+a.secondary-content{
+    cursor: default;
+}
+
 
 /* label color */
 .input-field label {

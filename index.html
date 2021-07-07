@@ -43,16 +43,22 @@
                             onkeyup="this.setAttribute('data-choice', this.value);">
                             <label for="city_search_input">Search City</label>
                         </div>
-                        <div class="col s-12 offset-s3">
+                    </div>
+                    <div class="row">
+                        <div class="col s-6 offset-s1">
                             <button id="search-button" 
                             class="btn-large waves-effect waves-light teal lighten-3" type="submit" name="submit" >Search</button>
+                        </div>
+                        <div class="col s-6 push-s4">
+                            <button id="reset-button" 
+                            class="btn-large waves-effect waves-light red lighten-3" type="button" name="reset" >Reset</button>
                         </div>
                     </div>
                 </form>
             </section>
-            <section class="divider"></section>
-            <section class="" id="history_list">
-                
+            <section class="" id="history_section">
+                <ul id="history_list" class="collection">
+                </ul>
             </section>
         </div>
   

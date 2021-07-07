@@ -2,10 +2,12 @@
 let submitButton = $('#search-button');
 submitButton.on('click', runSearch);
 
+let resetButton = $('#reset-button');
+resetButton.on('click', resetMemory);
+
 
 API_key = "cfa986a892adc335000bb8a3ce3c9c06"
 saveName = 'cityWeather'
-
 
 
 function addCityResultToLocal(city, data){
@@ -22,12 +24,7 @@ function addCityResultToLocal(city, data){
             'data': data,
         },];
     }
-    
     localStorage.setItem(saveName, JSON.stringify(pastStorage));
-}
-
-function addCityToHistoryBar(city){
-    console.log(`Adding city to history bar:${city}`)
 }
 
 function loadAndRenderStorage(){
@@ -36,7 +33,6 @@ function loadAndRenderStorage(){
     if(storage){
         // render cityWeather objects
         for(let i=0; i < storage.length; i++){
-            addCityToHistoryBar(storage[i].city);
             renderCurrentCityWeather(storage[i].city, storage[i].data);
         }
     }else{
@@ -44,6 +40,24 @@ function loadAndRenderStorage(){
         console.log("No persisting data");
     }
 
+}
+
+function getWeatherIconStr(data){
+    let currentCelsius = data.current.temp - 273;
+    // if temp is above 15
+    if(currentCelsius >= 15){
+        // sunny 
+        if(currentCelsius <= 24){
+            return "wb_sunny";
+        } else if (currentCelsius <= 34){
+            return "beach_access";
+        } else if(currentCelsius <= 45){
+            return "whatshot";
+        }
+    // subzero
+    } else {
+        return "ac_unit";
+    }
 }
 
 function queryLocationAPI(queryString, city){
@@ -55,7 +69,7 @@ function queryLocationAPI(queryString, city){
         return response.json();
     })
     .then(function(data){
-        if(data){
+        if(data.length > 0){
             queryWeatherAPI(data[0]);
         } else {
             console.log(`No location data returned for city: ${city}`)
@@ -83,6 +97,7 @@ function queryWeatherAPI(city){
             addCityResultToLocal(city, data);
             // reload the screen to reflect the new state
             // window.location.reload();
+            renderCurrentCityWeather(city, data);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
@@ -92,9 +107,38 @@ function queryWeatherAPI(city){
 }
 
 function renderCurrentCityWeather(city, data){
-    console.log('Rendering city to hero weather section');
-    console.log(city);
-    console.log(data);
+    // rendering history card first
+    console.log(`Adding city to history bar:${city}`)
+    let historyList = $('#history_list')
+
+    // dynamically assign icon class based on data
+    let iconName = getWeatherIconStr(data);
+
+    // create elements for a city li
+    let listEl = makeNewJqueryElement('li', 'collection-item z-depth-1')
+    let divEl = makeNewJqueryElement('div', null, null, city.name+": "+city.country);
+    let linkEl = makeNewJqueryElement('a', 'secondary-content');
+    let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
+
+    // specifically give the a link an empty href since helper function can't
+    linkEl.attr('href', '#');
+
+    // add the temperature to the link element
+    let currentTemp = Math.round(data.current.temp - 273, 1);
+    linkEl.text(currentTemp+"°C ");
+
+    // build structure
+    linkEl.append(iconEl);
+    divEl.append(linkEl);
+    listEl.append(divEl)
+
+    // append to section
+    historyList.append(listEl);
+}
+
+function resetMemory(event){
+    localStorage.clear();
+    window.location.reload();
 }
 
 function runSearch(event){
@@ -123,10 +167,4 @@ function runSearch(event){
     } else {
         console.log('User did not specify a city')
     }
-
-    // // clean up form after process
-    let form = $('#search_form')[0];
-    form.reset();
-    // // prevent refreshing the page
-    return false;
 }
