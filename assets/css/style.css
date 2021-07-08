@@ -1,6 +1,7 @@
 :root {
     --teal: #26a69a;
     --dark_teal: #155e56;
+    --selected: #41c1f3;
 }
 
 #brand_title{
@@ -9,6 +10,10 @@
 
 a.secondary-content{
     cursor: default;
+}
+
+.selected{
+    background-color: var(--selected) !important;
 }
 
 

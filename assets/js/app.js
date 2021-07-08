@@ -33,7 +33,11 @@ function loadAndRenderStorage(){
     if(storage){
         // render cityWeather objects
         for(let i=0; i < storage.length; i++){
-            renderCurrentCityWeather(storage[i].city, storage[i].data);
+            if(i===0){
+                renderCurrentCityWeather(storage[i].city, storage[i].data, true);
+            } else {
+                renderCurrentCityWeather(storage[i].city, storage[i].data, false);
+            }
         }
     }else{
         // render placeholder for current weather
@@ -97,7 +101,7 @@ function queryWeatherAPI(city){
             addCityResultToLocal(city, data);
             // reload the screen to reflect the new state
             // window.location.reload();
-            renderCurrentCityWeather(city, data);
+            renderCurrentCityWeather(city, data, true);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
@@ -106,16 +110,17 @@ function queryWeatherAPI(city){
     })
 }
 
-function renderCurrentCityWeather(city, data){
+function renderCurrentCityWeather(city, data, selected){
     // rendering history card first
     console.log(`Adding city to history bar:${city}`)
     let historyList = $('#history_list')
 
     // dynamically assign icon class based on data
     let iconName = getWeatherIconStr(data);
+    let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
     // create elements for a city li
-    let listEl = makeNewJqueryElement('li', 'collection-item z-depth-1')
+    let listEl = makeNewJqueryElement('li', listElClass)
     let divEl = makeNewJqueryElement('div', null, null, city.name+": "+city.country);
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
