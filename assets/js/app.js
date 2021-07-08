@@ -14,7 +14,6 @@ part = ['minutely', 'hourly', 'daily', 'alerts']  // leaving current only
 
 function makeQueryString(searchString, code){
     // direct geocoding answer - https://openweathermap.org/api/geocoding-api
-    let openWeatherRoot = "http://api.openweathermap.org/geo/1.0/direct"
     // assuming that the first city returned is correct
     if (code){
         queryString = geocodingApiRoot + "?q="+searchString+','+code+'&limit=1&appid='+API_key
@@ -35,6 +34,7 @@ function queryAPI(queryString){
         return response.json();
     })
     .then(function(data){
+        console.log(data);
         for(let i=0; i<data.length; i++){
             console.log(data[i].name);
             console.log(data[i].lat);
@@ -57,14 +57,10 @@ function runSearch(event){
     if(citySearchText){
         console.log(`Country index before building query is ${countryChoiceIndex}`)
         let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
-        let currentCountryAlpha3 = countries.alpha3[countryChoiceIndex];
-        let currentCountryCioc = countries.cioc[countryChoiceIndex];
-        let queryString = makeQueryString(citySearchText, currentCountryAlpha3);
-        console.log(queryString);
+        let queryString = makeQueryString(citySearchText, currentCountryAlpha2);
         queryAPI(queryString);
     // if user doesn't put in a city
     } else {
-        console.log(`Country index before building query is ${currentCountryCioc}`)
         console.log('User did not specify a city')
     }
     

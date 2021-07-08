@@ -7,7 +7,6 @@ $(document).ready(function(){
 let countryInputEL = $('#country_search_input');
 countryInputEL.on('change', function(){
   countryChoiceIndex = -1;
-  console.log('resetting countryChoiceIndex to -1 since autofill was not done');
 })
 
 let countriesApiRoot = "https://restcountries.eu/"
@@ -36,8 +35,6 @@ fetch(countries_api, {
       countries.names_null[data[i].name] = null;
       countries.names[i] = data[i].name;
       countries.alpha2[i] = data[i].alpha2Code;
-      countries.alpha3[i] = data[i].alpha3Code;
-      countries.cioc[i] = data[i].cioc;
     }
     // make the autocomplete use the country list
     buildCountryAutocompleteOnLoad(countries.names_null);
@@ -57,13 +54,13 @@ function buildCountryAutocompleteOnLoad(countries_json){
     $('#country_search_input').autocomplete({
       data: countries_json,
       onAutocomplete: function(val) {
+
       // Callback function when value is autocompleted.
       let searchInputEl = $('#country_search_input');
+
       // set the data-value to the autocomplete value
       searchInputEl.attr('data-choice', val);
       countryChoiceIndex = getCountryIndexFromCountryName(val);
-      console.log(`Country index is: ${countryChoiceIndex}`)
-      console.log(`Added autocomplete choice ${val} to the data-value of the search input`);
     },
     });
   });
