@@ -18,27 +18,28 @@ geocodingAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
 saveName = 'cityWeather'
 
 currentSelection = 0;
+storage = [];
 
 
 function addCityToLocalStorage(city, data, countryQueryName){
     console.log('Adding city: '+city.name+' To local storage');
-    let pastStorage = JSON.parse(localStorage.getItem(saveName));
+    storage = JSON.parse(localStorage.getItem(saveName));
     // if no stored values in past - make new structure and save
-    if(!pastStorage){
-        pastStorage = [{
+    if(!storage){
+        storage = [{
             'search_details': city.name+':'+countryQueryName,
             'city': city,
             'data': data,
         },];
     // case to add a new city to local store
     } else {
-        pastStorage.splice(0, 0, {
+        storage.splice(0, 0, {
             'search_details': city.name+':'+countryQueryName,
             'city': city,
             'data': data,
         })
     }
-    localStorage.setItem(saveName, JSON.stringify(pastStorage));
+    localStorage.setItem(saveName, JSON.stringify(storage));
     RenderStorage();
 }
 
@@ -69,7 +70,7 @@ function getWeatherIconStr(data){
 }
 
 function RenderStorage(){
-    let storage = JSON.parse(localStorage.getItem(saveName));
+    storage = JSON.parse(localStorage.getItem(saveName));
     if(storage){
         // render cityWeather objects
         console.log('Rendering stored objects');
@@ -102,6 +103,8 @@ function makeWeatherQueryString(city){
 function updateCurrentWeatherSelection(event){
     currentSelection = parseInt(event.target.parentElement.dataset['index'])
     console.log('Current Selection index: '+currentSelection);
+    let currentCityObject = storage[currentSelection];
+    console.log('Clicked city object is: '+currentCityObject.city.name);
 }
 
 function queryGeocodingCityAPI(queryString, countryQueryName){
