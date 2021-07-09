@@ -102,6 +102,7 @@ function makeWeatherQueryString(city){
 
 function updateCurrentWeatherSelection(event){
     console.log('event triggered');
+    console.log(event.target.parentElement.dataset['index']);
     console.log(event.parent.target);
 }
 
