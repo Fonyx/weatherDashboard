@@ -44,8 +44,6 @@ function addEventListenersToHistoryItems(){
     let historyCards = $('li.collection');
 
     for(let i=0; i< historyCards.length; i++){
-        console.log('adding event listener to element');
-        console.log(historyCards[i]);
         historyCards[i].addEventListener('click', updateCurrentWeatherSelection);
     }
 }
@@ -76,6 +74,9 @@ function loadAndRenderStorage(){
         for(let i=0; i < storage.length; i++){
             renderCurrentCityWeather(storage[i].city, storage[i].data, i);
         }
+        // add the event handler for change of weather selection
+        removeEventListenersFromHistoryItems();
+        addEventListenersToHistoryItems();
     }else{
         // render placeholder for current weather
         console.log("No persisting data");
@@ -101,9 +102,8 @@ function makeWeatherQueryString(city){
 }
 
 function updateCurrentWeatherSelection(event){
-    console.log('event triggered');
-    console.log(event.target.parentElement.dataset['index']);
-    console.log(event.parent.target);
+    currentSelection = parseInt(event.target.parentElement.dataset['index'])
+    console.log('Current Selection index: '+currentSelection);
 }
 
 function queryGeocodingCityAPI(queryString, countryQueryName){
@@ -168,8 +168,6 @@ function queryWeatherAPI(city, countryQueryName){
 function removeEventListenersFromHistoryItems(){
     let historyCards = $('li.collection');
     for(let i=0; i< historyCards.length; i++){
-        console.log('removing event listener from element');
-        console.log(historyCards[i]);
         historyCards[i].removeEventListener('click', updateCurrentWeatherSelection);
     }
 }
@@ -196,10 +194,6 @@ function renderCurrentCityWeather(city, data, position){
     // add the temperature to the link element
     let currentTemp = Math.round(data.current.temp - 273, 1);
     linkEl.text(currentTemp+"°C ");
-
-    // add the event handler for change of weather selection
-    removeEventListenersFromHistoryItems();
-    addEventListenersToHistoryItems();
 
     // build structure
     linkEl.append(iconEl);
