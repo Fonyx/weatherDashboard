@@ -22,7 +22,6 @@ storage = [];
 
 
 function addCityToLocalStorage(city, data, countryQueryName){
-    console.log('Adding city: '+city.name+' To local storage');
     storage = JSON.parse(localStorage.getItem(saveName));
     // if no stored values in past - make new structure and save
     if(!storage){
@@ -73,8 +72,6 @@ function RenderStorage(){
     storage = JSON.parse(localStorage.getItem(saveName));
     if(storage){
         // render cityWeather objects
-        console.log('Rendering stored objects');
-        console.log(storage);
         renderCityWeatherObjects(storage);
     }else{
         // render placeholder for current weather
@@ -90,7 +87,6 @@ function makeGeocodeQueryString(searchString, CountryCode){
         // limiting to first 5 returned - assuming they are appropriately sorted (population maybe)
         queryString = geocodingApiRoot + "?q="+searchString+'&limit=5&appid='+geocodingAPI_key;
     }
-    console.log(`Geocode query string built: ${queryString}`);
     return queryString;
 }
 
@@ -101,10 +97,14 @@ function makeWeatherQueryString(city){
 }
 
 function updateCurrentWeatherSelection(event){
+    resetAllHistoryCardColors();
     currentSelection = parseInt(event.target.parentElement.dataset['index'])
-    console.log('Current Selection index: '+currentSelection);
     let currentCityObject = storage[currentSelection];
-    console.log('Clicked city object is: '+currentCityObject.city.name);
+    console.log('Clicked city object is:\n\t');
+    console.log(currentCityObject);
+
+    let historyCard = $(event.target);
+    historyCard.addClass('purple lighten-3');
 }
 
 function queryGeocodingCityAPI(queryString, countryQueryName){
@@ -123,12 +123,11 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
                 let city = data[i];
                 // check the city isn't an obscure one like paris 5 for example
                 if(!hasNumbers.test(city.name)){
-                    console.log(`Running weather query on city: ${city.name}`)
                     queryWeatherAPI(city, countryQueryName, i);
                 }
             }
         } else {
-            console.log(`No location data returned for city: ${cityName}`)
+            console.log(`No location data returned for city: ${city.name}`)
             console.log(data);
         }
     })
@@ -170,7 +169,6 @@ function renderCityWeatherObjects(cityObjects){
         let city = cityObjects[i].city;
         let data = cityObjects[i].data;
         // rendering history card first
-        console.log('Adding city to history bar: '+city.name);
 
         // dynamically assign icon class based on data
         let iconName = getWeatherIconStr(data);
@@ -204,6 +202,11 @@ function renderCityWeatherObjects(cityObjects){
     }
 }
 
+function resetAllHistoryCardColors(){
+    let historyCards = $('#history_list').find('div');
+    historyCards.attr("class", "collection-item");
+}
+
 function resetMemory(event){
     localStorage.clear();
     window.location.reload();
@@ -221,9 +224,6 @@ function runSearch(event){
     let citySearchText = cityInputEl.attr('data-choice');
 
     if(citySearchText){
-        console.log(`Country index before building query is ${countryChoiceIndex}`);
-        console.log(`User string value: ${citySearchText}`);
-
         // check if city is already in the local storage history list
         let pastStorage = JSON.parse(localStorage.getItem(saveName));
         if(pastStorage){
