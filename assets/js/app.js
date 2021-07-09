@@ -99,13 +99,13 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
         return response.json();
     })
     .then(function(data){
-        let letters = /^[A-Za-z]+$/;
+        let numbers = /^[0-9]+$/;
         // since user can query with just city, we move through all the countries that have that city
         if(data.length > 0){
             for(let i =0; i < data.length; i++){
                 let city = data[i];
                 // check the city isn't an obscure one like paris 5 for example
-                if(city.name.match(letters)){
+                if(!city.name.match(numbers)){
                     console.log('Found city with details:')
                 console.log('\t'+city.name);
                 console.log('\t'+city.lat);
@@ -212,12 +212,13 @@ function runSearch(event){
                     return
                 }
             }
-            // make api query strings and start calls
-            let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
-            queryGeocodingCityAPI(queryString, countryQueryName);
-            // if user doesn't put in a city
-        } else {
-            console.log('User did not specify a city')
         }
+
+        // make api query strings and start calls
+        let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
+        queryGeocodingCityAPI(queryString, countryQueryName);
+    } else {
+        console.log('User did not specify a city')
     }
 }
+
