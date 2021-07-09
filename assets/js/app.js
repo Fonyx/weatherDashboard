@@ -5,31 +5,27 @@ submitButton.on('click', runSearch);
 let resetButton = $('#reset-button');
 resetButton.on('click', resetMemory);
 
+weatherApiRoot = "https://api.openweathermap.org/data/2.5/onecall"
+geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
 
-API_key = "cfa986a892adc335000bb8a3ce3c9c06"
+weatherAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
+geocodingAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
+
 saveName = 'cityWeather'
 
-
-function addCityResultToLocal(city, data){
-    // note the lack of a duplicate check, that is handled upstream to avoid api overuse
-    let pastStorage = JSON.parse(localStorage.getItem(saveName));
-    if(pastStorage){
-        pastStorage.push({
-            'city': city,
-            'data': data,
-        });
+function makeGeocodeQueryString(searchString, CountryCode){
+    if (CountryCode){
+        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'1&appid='+geocodingAPI_key
+    } else {
+        queryString = geocodingApiRoot + "?q="+searchString+'&appid='+geocodingAPI_key
+    return queryString;
     }
 }
 
-function makeQueryString(searchString, code){
-    // direct geocoding answer - https://openweathermap.org/api/geocoding-api
-    // assuming that the first city returned is correct
-    if (code){
-        queryString = geocodingApiRoot + "?q="+searchString+','+code+'&limit=1&appid='+API_key
-    } else {
-        queryString = geocodingApiRoot + "?q="+searchString+'&limit=1&appid='+API_key
+function makeWeatherQueryString(city){
+    let part = ['minutely', 'hourly', 'alerts']  // leaving current only
+    queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+"&exclude="+part+"&appid="+weatherAPI_key
     return queryString;
-    }
 }
 
 function addCityToLocalStorage(city, data){
@@ -81,7 +77,7 @@ function getWeatherIconStr(data){
     }
 }
 
-function queryLocationAPI(queryString, city){
+function queryGeocodingCityAPI(queryString, cityName){
     fetch(queryString,{
         cache: 'reload',
     })
@@ -91,15 +87,14 @@ function queryLocationAPI(queryString, city){
     })
     .then(function(data){
         if(data.length > 0){
-            for(let i=0; i<data.length; i++){
-                console.log(data[i].name);
-                console.log(data[i].lat);
-                console.log(data[i].lon);
-                console.log(data[i].country);
-            }
+            console.log('Found city with details:')
+            console.log('\t'+data[0].name);
+            console.log('\t'+data[0].lat);
+            console.log('\t'+data[0].lon);
+            console.log('\t'+data[0].country);
             queryWeatherAPI(data[0]);
         } else {
-            console.log(`No location data returned for city: ${city}`)
+            console.log(`No location data returned for city: ${cityName}`)
             console.log(data);
         }
     })
@@ -108,11 +103,9 @@ function queryLocationAPI(queryString, city){
     })
 }
 
-function queryWeatherAPI(city){
-    let part = ['minutely', 'hourly', 'alerts']  // leaving current only
-    let weatherApiRoot = "https://api.openweathermap.org/data/2.5/onecall"
+function queryWeatherAPI(city){   
 
-    let queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+"&exclude="+part+"&appid="+API_key
+    let queryString = makeWeatherQueryString(city);
     fetch(queryString,{
         cache: 'reload',
     })
@@ -122,7 +115,7 @@ function queryWeatherAPI(city){
     .then(function(data){
         console.log(data);
         if(data){
-            addCityResultToLocal(city, data);
+            addCityToLocalStorage(city, data);
             // reload the screen to reflect the new state
             // window.location.reload();
             renderCurrentCityWeather(city, data, true);
@@ -189,14 +182,14 @@ function runSearch(event){
     }
 
     if(citySearchText){
-        // geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
         // let queryString = geocodingApiRoot + "?q="+citySearchText+'&limit=1&appid='+API_key
-        // queryLocationAPI(queryString, citySearchText);
-
+    
         console.log(`Country index before building query is ${countryChoiceIndex}`)
+        console.log(`User string value: ${citySearchText}`)
         let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
-        let queryString = makeQueryString(citySearchText, currentCountryAlpha2);
-        queryAPI(queryString);
+        let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
+        console.log(`Query string built: ${queryString}`);
+        queryGeocodingCityAPI(queryString, citySearchText);
     // if user doesn't put in a city
     } else {
         console.log('User did not specify a city')

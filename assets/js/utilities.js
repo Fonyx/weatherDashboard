@@ -23,8 +23,7 @@ countryInputEL.on('change', function(){
   countryChoiceIndex = -1;
 })
 
-let countriesApiRoot = "https://restcountries.eu/"
-let countries_api = countriesApiRoot + "rest/v2/all"
+countriesApiRoot = "https://restcountries.eu/rest/v2/all"
 
 countries = {
   names_null: [],
@@ -37,7 +36,7 @@ countries = {
 countryChoiceIndex = -1;
 
 // query the countries api for a list of countries
-fetch(countries_api, {
+fetch(countriesApiRoot, {
     cache: 'default',
 })
 .then(function(response){
