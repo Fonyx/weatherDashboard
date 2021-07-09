@@ -45,7 +45,14 @@ function addCityToLocalStorage(city, data){
             'city': city,
             'data': data,
         },];
+    // case to add a new city to local store
+    } else {
+        pastStorage.push({
+            'city': city,
+            'data': data,
+        })
     }
+
     localStorage.setItem(saveName, JSON.stringify(pastStorage));
 }
 
