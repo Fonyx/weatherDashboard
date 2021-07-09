@@ -188,28 +188,31 @@ function resetMemory(event){
 
 function runSearch(event){
     event.preventDefault();
-    // check there is a string in the data-choice parameter
+
+    // get dom values
     let cityInputEl = $('#city_search_input');
+    let country = countries.names[countryChoiceIndex];
+    let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
+
+    // check there is a string in the data-choice parameter
     let citySearchText = cityInputEl.attr('data-choice');
 
-    // check if city is already in the local storage history list
-    let pastStorage = JSON.parse(localStorage.getItem(saveName));
-    if(pastStorage){
-        // check that this city doesn't already exist in local storage
-        for(let i =0; i<pastStorage.length; i++){
-            if(pastStorage[i].city.name === citySearchText){
-                console.log(`City name: ${citySearchText} is already in local storage - ignore`);
-                return
+    if(citySearchText){
+        console.log(`Country index before building query is ${countryChoiceIndex}`);
+        console.log(`User string value: ${citySearchText}`);
+
+        // check if city is already in the local storage history list
+        let pastStorage = JSON.parse(localStorage.getItem(saveName));
+        if(pastStorage){
+            // check that this city doesn't already exist in local storage
+            for(let i =0; i<pastStorage.length; i++){
+                if(pastStorage[i].search_details === citySearchText+':'+country){
+                    console.log(`City name: ${citySearchText} is already in local storage - ignore`);
+                    return
+                }
             }
         }
-    }
-
-    if(citySearchText){
-        // let queryString = geocodingApiRoot + "?q="+citySearchText+'&limit=1&appid='+API_key
-    
-        console.log(`Country index before building query is ${countryChoiceIndex}`)
-        console.log(`User string value: ${citySearchText}`)
-        let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
+        // make api query strings and start calls
         let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
         queryGeocodingCityAPI(queryString, citySearchText);
     // if user doesn't put in a city
