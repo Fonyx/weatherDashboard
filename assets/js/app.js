@@ -7,6 +7,8 @@ submitButton.on('click', runSearch);
 let resetButton = $('#reset-button');
 resetButton.on('click', resetMemory);
 
+historyList = $('#history_list');
+
 weatherApiRoot = "https://api.openweathermap.org/data/2.5/onecall"
 geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
 
@@ -19,7 +21,7 @@ currentSelection = 0;
 
 
 function addCityToLocalStorage(city, data, countryQueryName){
-    console.log('collecting stored data');
+    console.log('Adding city: '+city.name+' To local storage');
     let pastStorage = JSON.parse(localStorage.getItem(saveName));
     // if no stored values in past - make new structure and save
     if(!pastStorage){
@@ -36,8 +38,8 @@ function addCityToLocalStorage(city, data, countryQueryName){
             'data': data,
         })
     }
-
     localStorage.setItem(saveName, JSON.stringify(pastStorage));
+    RenderStorage();
 }
 
 function addEventListenersToHistoryItems(){
@@ -66,17 +68,13 @@ function getWeatherIconStr(data){
     }
 }
 
-function loadAndRenderStorage(){
-    console.log('collecting stored data');
+function RenderStorage(){
     let storage = JSON.parse(localStorage.getItem(saveName));
     if(storage){
         // render cityWeather objects
-        for(let i=0; i < storage.length; i++){
-            renderCurrentCityWeather(storage[i].city, storage[i].data, i);
-        }
-        // add the event handler for change of weather selection
-        removeEventListenersFromHistoryItems();
-        addEventListenersToHistoryItems();
+        console.log('Rendering stored objects');
+        console.log(storage);
+        renderCityWeatherObjects(storage);
     }else{
         // render placeholder for current weather
         console.log("No persisting data");
@@ -122,7 +120,6 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
                 let city = data[i];
                 // check the city isn't an obscure one like paris 5 for example
                 if(!hasNumbers.test(city.name)){
-                    console.log('Found city with details:')
                     console.log(`Running weather query on city: ${city.name}`)
                     queryWeatherAPI(city, countryQueryName, i);
                 }
@@ -137,7 +134,7 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
     })
 }
 
-function queryWeatherAPI(city, countryQueryName, position){   
+function queryWeatherAPI(city, countryQueryName){   
 
     let queryString = makeWeatherQueryString(city);
     fetch(queryString,{
@@ -149,8 +146,6 @@ function queryWeatherAPI(city, countryQueryName, position){
     .then(function(data){
         if(data){
             addCityToLocalStorage(city, data, countryQueryName);
-            // reload the screen to reflect the new state
-            renderCurrentCityWeather(city, data, position);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
@@ -166,36 +161,44 @@ function removeEventListenersFromHistoryItems(){
     }
 }
 
-function renderCurrentCityWeather(city, data, position){
-    // rendering history card first
-    console.log('Adding city to history bar: ');
-    console.log(city);
-    let historyList = $('#history_list')
+function renderCityWeatherObjects(cityObjects){
+    historyList.text("");
+    for(let i =0; i < cityObjects.length; i++){
+        let city = cityObjects[i].city;
+        let data = cityObjects[i].data;
+        // rendering history card first
+        console.log('Adding city to history bar: '+city.name);
 
-    // dynamically assign icon class based on data
-    let iconName = getWeatherIconStr(data);
-    // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
+        // dynamically assign icon class based on data
+        let iconName = getWeatherIconStr(data);
+        // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
-    // create elements for a city li
-    let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: position})
-    let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
-    let linkEl = makeNewJqueryElement('a', 'secondary-content');
-    let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
+        // create elements for a city li
+        let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
+        let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
+        let linkEl = makeNewJqueryElement('a', 'secondary-content');
+        let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
 
-    // specifically give the a link an empty href since helper function can't give an href function
-    linkEl.attr('href', '#');
+        // specifically give the a link an empty href since helper function can't give an href function
+        linkEl.attr('href', '#');
 
-    // add the temperature to the link element
-    let currentTemp = Math.round(data.current.temp - 273, 1);
-    linkEl.text(currentTemp+"°C ");
+        // add the temperature to the link element
+        let currentTemp = Math.round(data.current.temp - 273, 1);
+        linkEl.text(currentTemp+"°C ");
 
-    // build structure
-    linkEl.append(iconEl);
-    divEl.append(linkEl);
-    listEl.append(divEl)
+        // build structure
+        linkEl.append(iconEl);
+        divEl.append(linkEl);
+        listEl.append(divEl)
 
-    // append to section
-    historyList.append(listEl);
+        // append to section
+        historyList.append(listEl);
+
+        // add the event handler for change of weather selection
+        removeEventListenersFromHistoryItems();
+        addEventListenersToHistoryItems();
+
+    }
 }
 
 function resetMemory(event){
@@ -237,6 +240,5 @@ function runSearch(event){
     } else {
         console.log('User did not specify a city')
     }
-
 }
 
