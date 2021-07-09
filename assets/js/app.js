@@ -36,20 +36,20 @@ function makeWeatherQueryString(city){
     return queryString;
 }
 
-function addCityToLocalStorage(city, data){
+function addCityToLocalStorage(city, data, countryQueryName){
     console.log('collecting stored data');
     let pastStorage = JSON.parse(localStorage.getItem(saveName));
     // if no stored values in past - make new structure and save
     if(!pastStorage){
         pastStorage = [{
-            'search_details': city.name+':'+city.country,
+            'search_details': city.name+':'+countryQueryName,
             'city': city,
             'data': data,
         },];
     // case to add a new city to local store
     } else {
         pastStorage.push({
-            'search_details': city.name+':'+city.country,
+            'search_details': city.name+':'+countryQueryName,
             'city': city,
             'data': data,
         })
@@ -90,7 +90,7 @@ function getWeatherIconStr(data){
     }
 }
 
-function queryGeocodingCityAPI(queryString, cityName){
+function queryGeocodingCityAPI(queryString, countryQueryName){
     fetch(queryString,{
         cache: 'reload',
     })
@@ -112,7 +112,7 @@ function queryGeocodingCityAPI(queryString, cityName){
                 console.log('\t'+city.lon);
                 console.log('\t'+city.country);
                 console.log(`Running weather query on city: ${city.name}`)
-                queryWeatherAPI(city);
+                queryWeatherAPI(city, countryQueryName);
                 }
             }
         } else {
@@ -125,7 +125,7 @@ function queryGeocodingCityAPI(queryString, cityName){
     })
 }
 
-function queryWeatherAPI(city){   
+function queryWeatherAPI(city, countryQueryName){   
 
     let queryString = makeWeatherQueryString(city);
     fetch(queryString,{
@@ -137,7 +137,7 @@ function queryWeatherAPI(city){
     .then(function(data){
         console.log(data);
         if(data){
-            addCityToLocalStorage(city, data);
+            addCityToLocalStorage(city, data, countryQueryName);
             // reload the screen to reflect the new state
             // window.location.reload();
             renderCurrentCityWeather(city, data);
@@ -191,7 +191,7 @@ function runSearch(event){
 
     // get dom values
     let cityInputEl = $('#city_search_input');
-    let country = countries.names[countryChoiceIndex];
+    let countryQueryName = countries.names[countryChoiceIndex];
     let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
 
     // check there is a string in the data-choice parameter
@@ -206,15 +206,15 @@ function runSearch(event){
         if(pastStorage){
             // check that this city doesn't already exist in local storage
             for(let i =0; i<pastStorage.length; i++){
-                if(pastStorage[i].search_details === citySearchText+':'+country){
+                // case for encountering the same search twice
+                if(pastStorage[i].search_details === citySearchText+':'+countryQueryName){
                     console.log(`City name: ${citySearchText} is already in local storage - ignore`);
                     return
-                }
             }
         }
         // make api query strings and start calls
         let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
-        queryGeocodingCityAPI(queryString, citySearchText);
+        queryGeocodingCityAPI(queryString, countryQueryName);
     // if user doesn't put in a city
     } else {
         console.log('User did not specify a city')
