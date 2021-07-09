@@ -123,12 +123,8 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
                 // check the city isn't an obscure one like paris 5 for example
                 if(!hasNumbers.test(city.name)){
                     console.log('Found city with details:')
-                console.log('\t'+city.name);
-                console.log('\t'+city.lat);
-                console.log('\t'+city.lon);
-                console.log('\t'+city.country);
-                console.log(`Running weather query on city: ${city.name}`)
-                queryWeatherAPI(city, countryQueryName);
+                    console.log(`Running weather query on city: ${city.name}`)
+                    queryWeatherAPI(city, countryQueryName, i);
                 }
             }
         } else {
@@ -141,7 +137,7 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
     })
 }
 
-function queryWeatherAPI(city, countryQueryName){   
+function queryWeatherAPI(city, countryQueryName, position){   
 
     let queryString = makeWeatherQueryString(city);
     fetch(queryString,{
@@ -151,12 +147,10 @@ function queryWeatherAPI(city, countryQueryName){
         return response.json();
     })
     .then(function(data){
-        console.log(data);
         if(data){
             addCityToLocalStorage(city, data, countryQueryName);
             // reload the screen to reflect the new state
-            window.location.reload();
-            // renderCurrentCityWeather(city, data);
+            renderCurrentCityWeather(city, data, position);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
@@ -243,5 +237,6 @@ function runSearch(event){
     } else {
         console.log('User did not specify a city')
     }
+
 }
 
