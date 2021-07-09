@@ -98,21 +98,23 @@ function makeWeatherQueryString(city){
 
 function AssignCurrentWeatherSelection(index){
     resetAllHistoryCardColors();
+    // get all the history cards
     let historyCards = $('#history_list').find('div');
+    // add the purple lighten-3 materialize class
     $(historyCards[index]).addClass('purple lighten-3');
+    // set global to first index
     currentSelection = 0;
-    let currentCityObject = storage[currentSelection];
-    console.log('Auto assigned city object is:\n\t');
-    console.log(currentCityObject);
+    renderCurrentWeather();
 }
 
 function UserClickedUpdateCurrentWeatherSelection(event){
+    // clear all the history card focus colors
     resetAllHistoryCardColors();
+    // update the currentSelection to be the selected history card
     currentSelection = parseInt(event.target.parentElement.dataset['index'])
+    // log for sanity
     let currentCityObject = storage[currentSelection];
-    console.log('Clicked city object is:\n\t');
-    console.log(currentCityObject);
-
+    // change the class of the history card to purple emphasis
     let historyCard = $(event.target);
     historyCard.addClass('purple lighten-3');
 }
@@ -214,6 +216,12 @@ function renderCityWeatherObjects(cityObjects){
     setTimeout(function(){
         AssignCurrentWeatherSelection(0);
     }, 500)
+}
+
+function renderCurrentWeather(){
+    let currentCityObject = storage[currentSelection];
+    console.log('Auto assigned city object is:\n\t');
+    console.log(currentCityObject);
 }
 
 function resetAllHistoryCardColors(){
