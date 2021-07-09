@@ -8,6 +8,8 @@ let resetButton = $('#reset-button');
 resetButton.on('click', resetMemory);
 
 historyList = $('#history_list');
+weatherHero = $('#weather_hero');
+weatherCards = $('#weather_cards');
 
 weatherApiRoot = "https://api.openweathermap.org/data/2.5/onecall"
 geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
@@ -46,7 +48,7 @@ function addEventListenersToHistoryItems(){
     let historyCards = $('li.collection');
 
     for(let i=0; i< historyCards.length; i++){
-        historyCards[i].addEventListener('click', UserClickedUpdateCurrentWeatherSelection);
+        historyCards[i].addEventListener('click', userClickedUpdateCurrentWeatherSelection);
     }
 }
 
@@ -66,6 +68,10 @@ function getWeatherIconStr(data){
     } else {
         return "ac_unit";
     }
+}
+
+function getColorClassForUV(){
+    return "purple lighten-2"
 }
 
 function RenderStorage(){
@@ -96,7 +102,7 @@ function makeWeatherQueryString(city){
     return queryString;
 }
 
-function AssignCurrentWeatherSelection(index){
+function assignCurrentWeatherSelection(index){
     resetAllHistoryCardColors();
     // get all the history cards
     let historyCards = $('#history_list').find('div');
@@ -107,16 +113,16 @@ function AssignCurrentWeatherSelection(index){
     renderCurrentWeather();
 }
 
-function UserClickedUpdateCurrentWeatherSelection(event){
+function userClickedUpdateCurrentWeatherSelection(event){
     // clear all the history card focus colors
     resetAllHistoryCardColors();
-    // update the currentSelection to be the selected history card
-    currentSelection = parseInt(event.target.parentElement.dataset['index'])
-    // log for sanity
-    let currentCityObject = storage[currentSelection];
     // change the class of the history card to purple emphasis
     let historyCard = $(event.target);
     historyCard.addClass('purple lighten-3');
+    // update the currentSelection to be the selected history card
+    currentSelection = parseInt(event.target.parentElement.dataset['index'])
+    // update render
+    renderCurrentWeather();
 }
 
 function queryGeocodingCityAPI(queryString, countryQueryName){
@@ -171,7 +177,7 @@ function queryWeatherAPI(city, countryQueryName){
 function removeEventListenersFromHistoryItems(){
     let historyCards = $('li.collection');
     for(let i=0; i< historyCards.length; i++){
-        historyCards[i].removeEventListener('click', UserClickedUpdateCurrentWeatherSelection);
+        historyCards[i].removeEventListener('click', userClickedUpdateCurrentWeatherSelection);
     }
 }
 
@@ -214,14 +220,54 @@ function renderCityWeatherObjects(cityObjects){
     // set the selection indicator and the currentSelection global to the first element
     // wait for 0.5 second to finish load
     setTimeout(function(){
-        AssignCurrentWeatherSelection(0);
+        assignCurrentWeatherSelection(0);
     }, 500)
 }
 
 function renderCurrentWeather(){
-    let currentCityObject = storage[currentSelection];
-    console.log('Auto assigned city object is:\n\t');
-    console.log(currentCityObject);
+    let city = storage[currentSelection].city;
+    let weather = storage[currentSelection].data.current;
+    let forecast = storage[currentSelection].data.daily;
+
+    let current_temp = Math.round(weather.temp - 273, 1);
+    let current_time =  moment(weather.dt);
+    let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
+
+    console.log('Current city object is:',city, weather);
+    console.log(weather.uvi);
+
+    // get uv index color
+    let uv_index_color = getColorClassForUV();
+
+    // render hero place
+    // add details: City, Date, weather-icon temp, windspeed, humidity, UV index with color repr
+    let bannerEl = makeNewJqueryElement('div', 'parallax-container', 'hero-container');
+    let innerContEl = makeNewJqueryElement('div', 'container');
+    let cityEl = makeNewJqueryElement('h3', 'hero_city', null, city.name+" : "+city.country);
+    let dateEl = makeNewJqueryElement('h4', 'hero_cate', null, current_time_display)
+    let weatherIconEl = makeNewJqueryElement('i', 'hero_icon', null, weather.weather[0].icon)
+    let tempEl = makeNewJqueryElement('p', 'hero_text', null, current_temp.toString()+"°​C");
+    let windEl = makeNewJqueryElement('p', 'hero_wind', null, weather.wind_speed.toString()+"Mph");
+    let humidityEl = makeNewJqueryElement('p', 'hero_humidity', null, weather.humidity.toString()+"%");
+    let UvEl = makeNewJqueryElement('p', 'hero_uv '+uv_index_color, null, weather.uvi.toString()+"%");
+    
+    // nest and append to weatherHero
+    // reset hero to empty
+    weatherHero.text("");
+
+    // restack weather hero
+    innerContEl.append(cityEl);
+    innerContEl.append(dateEl);
+    innerContEl.append(weatherIconEl);
+    innerContEl.append(tempEl);
+    innerContEl.append(windEl);
+    innerContEl.append(humidityEl);
+    innerContEl.append(UvEl);
+    bannerEl.append(innerContEl);
+    weatherHero.append(bannerEl);
+
+    // render forecast cards below
+    // add details: City, Date, weather-icon temp, windspeed, humidity, UV index with color repr
 }
 
 function resetAllHistoryCardColors(){
