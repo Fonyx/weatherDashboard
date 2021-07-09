@@ -18,7 +18,24 @@ function addCityResultToLocal(city, data){
             'city': city,
             'data': data,
         });
+    }
+}
+
+function makeQueryString(searchString, code){
+    // direct geocoding answer - https://openweathermap.org/api/geocoding-api
+    // assuming that the first city returned is correct
+    if (code){
+        queryString = geocodingApiRoot + "?q="+searchString+','+code+'&limit=1&appid='+API_key
     } else {
+        queryString = geocodingApiRoot + "?q="+searchString+'&limit=1&appid='+API_key
+    return queryString;
+    }
+}
+
+function addCityToLocalStorage(city, data){
+    console.log('collecting stored data');
+    let pastStorage = JSON.parse(localStorage.getItem(saveName));
+    if(!pastStorage){
         pastStorage = [{
             'city': city,
             'data': data,
@@ -74,9 +91,16 @@ function queryLocationAPI(queryString, city){
     })
     .then(function(data){
         if(data.length > 0){
+            for(let i=0; i<data.length; i++){
+                console.log(data[i].name);
+                console.log(data[i].lat);
+                console.log(data[i].lon);
+                console.log(data[i].country);
+            }
             queryWeatherAPI(data[0]);
         } else {
             console.log(`No location data returned for city: ${city}`)
+            console.log(data);
         }
     })
     .catch((error) => {
@@ -168,6 +192,11 @@ function runSearch(event){
         geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
         let queryString = geocodingApiRoot + "?q="+citySearchText+'&limit=1&appid='+API_key
         queryLocationAPI(queryString, citySearchText);
+
+        console.log(`Country index before building query is ${countryChoiceIndex}`)
+        let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
+        let queryString = makeQueryString(citySearchText, currentCountryAlpha2);
+        queryAPI(queryString);
     // if user doesn't put in a city
     } else {
         console.log('User did not specify a city')
