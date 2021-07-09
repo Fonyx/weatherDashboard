@@ -189,9 +189,9 @@ function runSearch(event){
     }
 
     if(citySearchText){
-        geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
-        let queryString = geocodingApiRoot + "?q="+citySearchText+'&limit=1&appid='+API_key
-        queryLocationAPI(queryString, citySearchText);
+        // geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
+        // let queryString = geocodingApiRoot + "?q="+citySearchText+'&limit=1&appid='+API_key
+        // queryLocationAPI(queryString, citySearchText);
 
         console.log(`Country index before building query is ${countryChoiceIndex}`)
         let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
