@@ -99,20 +99,20 @@ function queryGeocodingCityAPI(queryString, countryQueryName){
         return response.json();
     })
     .then(function(data){
-        let numbers = /^[0-9]+$/;
+        let hasNumbers = /\d/;
         // since user can query with just city, we move through all the countries that have that city
         if(data.length > 0){
             for(let i =0; i < data.length; i++){
                 let city = data[i];
                 // check the city isn't an obscure one like paris 5 for example
-                if(!city.name.match(numbers)){
+                if(!hasNumbers.test(city.name)){
                     console.log('Found city with details:')
-                console.log('\t'+city.name);
-                console.log('\t'+city.lat);
-                console.log('\t'+city.lon);
-                console.log('\t'+city.country);
-                console.log(`Running weather query on city: ${city.name}`)
-                queryWeatherAPI(city, countryQueryName);
+                    console.log('\t'+city.name);
+                    console.log('\t'+city.lat);
+                    console.log('\t'+city.lon);
+                    console.log('\t'+city.country);
+                    console.log(`Running weather query on city: ${city.name}`)
+                    queryWeatherAPI(city, countryQueryName);
                 }
             }
         } else {
@@ -149,7 +149,7 @@ function queryWeatherAPI(city, countryQueryName){
     })
 }
 
-function renderCurrentCityWeather(city, data){
+function renderCurrentCityWeather(city, data, position){
     // rendering history card first
     console.log('Adding city to history bar: ');
     console.log(city);
@@ -160,7 +160,7 @@ function renderCurrentCityWeather(city, data){
     // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
     // create elements for a city li
-    let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: 1})
+    let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: position})
     let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
