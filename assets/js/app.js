@@ -42,12 +42,14 @@ function addCityToLocalStorage(city, data){
     // if no stored values in past - make new structure and save
     if(!pastStorage){
         pastStorage = [{
+            'search_details': city.name+':'+city.country,
             'city': city,
             'data': data,
         },];
     // case to add a new city to local store
     } else {
         pastStorage.push({
+            'search_details': city.name+':'+city.country,
             'city': city,
             'data': data,
         })
