@@ -12,9 +12,9 @@ a.secondary-content{
     cursor: default;
 }
 
-.selected{
+/* .selected{
     background-color: var(--selected) !important;
-}
+} */
 
 
 /* label color */

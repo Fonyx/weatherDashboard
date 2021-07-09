@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Fonyx/weatherDashboard/issues"
   },
-  "homepage": "https://github.com/Fonyx/weatherDashboard#readme"
+  "homepage": "https://github.com/Fonyx/weatherDashboard#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
 }

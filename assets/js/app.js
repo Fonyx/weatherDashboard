@@ -1,3 +1,5 @@
+// handle environment variables for api keys
+
 // add event listener to form submit button
 let submitButton = $('#search-button');
 submitButton.on('click', runSearch);
@@ -15,11 +17,12 @@ saveName = 'cityWeather'
 
 function makeGeocodeQueryString(searchString, CountryCode){
     if (CountryCode){
-        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'1&appid='+geocodingAPI_key
+        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key
     } else {
         queryString = geocodingApiRoot + "?q="+searchString+'&appid='+geocodingAPI_key
-    return queryString;
     }
+    console.log(`Geocode query string built: ${queryString}`);
+    return queryString;
 }
 
 function makeWeatherQueryString(city){
@@ -87,12 +90,16 @@ function queryGeocodingCityAPI(queryString, cityName){
     })
     .then(function(data){
         if(data.length > 0){
-            console.log('Found city with details:')
-            console.log('\t'+data[0].name);
-            console.log('\t'+data[0].lat);
-            console.log('\t'+data[0].lon);
-            console.log('\t'+data[0].country);
-            queryWeatherAPI(data[0]);
+            for(let i =0; i < data.length; i++){
+                let city = data[i];
+                console.log('Found city with details:')
+                console.log('\t'+city.name);
+                console.log('\t'+city.lat);
+                console.log('\t'+city.lon);
+                console.log('\t'+city.country);
+                console.log(`Running weather query on city: ${city.name}`)
+                queryWeatherAPI(city);
+            }
         } else {
             console.log(`No location data returned for city: ${cityName}`)
             console.log(data);
@@ -118,7 +125,7 @@ function queryWeatherAPI(city){
             addCityToLocalStorage(city, data);
             // reload the screen to reflect the new state
             // window.location.reload();
-            renderCurrentCityWeather(city, data, true);
+            renderCurrentCityWeather(city, data);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
@@ -127,18 +134,18 @@ function queryWeatherAPI(city){
     })
 }
 
-function renderCurrentCityWeather(city, data, selected){
+function renderCurrentCityWeather(city, data){
     // rendering history card first
     console.log(`Adding city to history bar:${city}`)
     let historyList = $('#history_list')
 
     // dynamically assign icon class based on data
     let iconName = getWeatherIconStr(data);
-    let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
+    // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
     // create elements for a city li
-    let listEl = makeNewJqueryElement('li', listElClass)
-    let divEl = makeNewJqueryElement('div', null, null, city.name+": "+city.country);
+    let listEl = makeNewJqueryElement('li', "collection")
+    let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country);
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
 
@@ -188,7 +195,6 @@ function runSearch(event){
         console.log(`User string value: ${citySearchText}`)
         let currentCountryAlpha2 = countries.alpha2[countryChoiceIndex];
         let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
-        console.log(`Query string built: ${queryString}`);
         queryGeocodingCityAPI(queryString, citySearchText);
     // if user doesn't put in a city
     } else {
