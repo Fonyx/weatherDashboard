@@ -210,13 +210,14 @@ function runSearch(event){
                 if(pastStorage[i].search_details === citySearchText+':'+countryQueryName){
                     console.log(`City name: ${citySearchText} is already in local storage - ignore`);
                     return
+                }
             }
+            // make api query strings and start calls
+            let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
+            queryGeocodingCityAPI(queryString, countryQueryName);
+            // if user doesn't put in a city
+        } else {
+            console.log('User did not specify a city')
         }
-        // make api query strings and start calls
-        let queryString = makeGeocodeQueryString(citySearchText, currentCountryAlpha2);
-        queryGeocodingCityAPI(queryString, countryQueryName);
-    // if user doesn't put in a city
-    } else {
-        console.log('User did not specify a city')
     }
 }
