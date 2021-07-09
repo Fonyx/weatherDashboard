@@ -30,7 +30,7 @@ function addCityToLocalStorage(city, data, countryQueryName){
         },];
     // case to add a new city to local store
     } else {
-        pastStorage.push({
+        pastStorage.splice(0, 0, {
             'search_details': city.name+':'+countryQueryName,
             'city': city,
             'data': data,
@@ -154,8 +154,8 @@ function queryWeatherAPI(city, countryQueryName){
         if(data){
             addCityToLocalStorage(city, data, countryQueryName);
             // reload the screen to reflect the new state
-            // window.location.reload();
-            renderCurrentCityWeather(city, data);
+            window.location.reload();
+            // renderCurrentCityWeather(city, data);
         } else {
             console.log(`No weather details returned for: ${city}`);
         }})
