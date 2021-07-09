@@ -15,11 +15,16 @@ geocodingAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
 
 saveName = 'cityWeather'
 
+currentSelection = 0;
+
+
 function makeGeocodeQueryString(searchString, CountryCode){
+    let queryString = ""
     if (CountryCode){
-        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key
+        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key;
     } else {
-        queryString = geocodingApiRoot + "?q="+searchString+'&appid='+geocodingAPI_key
+        // limiting to first 5 returned - assuming they are appropriately sorted (population maybe)
+        queryString = geocodingApiRoot + "?q="+searchString+'&limit=5&appid='+geocodingAPI_key;
     }
     console.log(`Geocode query string built: ${queryString}`);
     return queryString;
@@ -34,6 +39,7 @@ function makeWeatherQueryString(city){
 function addCityToLocalStorage(city, data){
     console.log('collecting stored data');
     let pastStorage = JSON.parse(localStorage.getItem(saveName));
+    // if no stored values in past - make new structure and save
     if(!pastStorage){
         pastStorage = [{
             'city': city,
@@ -49,17 +55,12 @@ function loadAndRenderStorage(){
     if(storage){
         // render cityWeather objects
         for(let i=0; i < storage.length; i++){
-            if(i===0){
-                renderCurrentCityWeather(storage[i].city, storage[i].data, true);
-            } else {
-                renderCurrentCityWeather(storage[i].city, storage[i].data, false);
-            }
+            renderCurrentCityWeather(storage[i].city, storage[i].data);
         }
     }else{
         // render placeholder for current weather
         console.log("No persisting data");
     }
-
 }
 
 function getWeatherIconStr(data){
@@ -89,16 +90,21 @@ function queryGeocodingCityAPI(queryString, cityName){
         return response.json();
     })
     .then(function(data){
+        let letters = /^[A-Za-z]+$/;
+        // since user can query with just city, we move through all the countries that have that city
         if(data.length > 0){
             for(let i =0; i < data.length; i++){
                 let city = data[i];
-                console.log('Found city with details:')
+                // check the city isn't an obscure one like paris 5 for example
+                if(city.name.match(letters)){
+                    console.log('Found city with details:')
                 console.log('\t'+city.name);
                 console.log('\t'+city.lat);
                 console.log('\t'+city.lon);
                 console.log('\t'+city.country);
                 console.log(`Running weather query on city: ${city.name}`)
                 queryWeatherAPI(city);
+                }
             }
         } else {
             console.log(`No location data returned for city: ${cityName}`)
@@ -136,7 +142,8 @@ function queryWeatherAPI(city){
 
 function renderCurrentCityWeather(city, data){
     // rendering history card first
-    console.log(`Adding city to history bar:${city}`)
+    console.log('Adding city to history bar: ');
+    console.log(city);
     let historyList = $('#history_list')
 
     // dynamically assign icon class based on data
@@ -145,7 +152,7 @@ function renderCurrentCityWeather(city, data){
 
     // create elements for a city li
     let listEl = makeNewJqueryElement('li', "collection")
-    let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country);
+    let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
 
