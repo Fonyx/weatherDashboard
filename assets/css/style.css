@@ -8,6 +8,16 @@
     --reset-red: #F23838;
 }
 
+/* Materialize requires these body settings for the footer to stick to page bottom */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+flex: 1 0 auto;
+}
+
 body{
     background-color: #E9EFF2;
 }
