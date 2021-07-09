@@ -19,7 +19,7 @@ flex: 1 0 auto;
 }
 
 body{
-    background-color: #E9EFF2;
+    background-color: var(--lightest-blue);
 }
 
 #brand_title{
@@ -31,7 +31,7 @@ a.secondary-content{
 }
 
 .secondary-content{
-    color: var(--blue);
+    color: var(--darker-blue);
 }
 
 .collection .collection-item{
