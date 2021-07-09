@@ -160,7 +160,7 @@ function renderCurrentCityWeather(city, data){
     // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
     // create elements for a city li
-    let listEl = makeNewJqueryElement('li', "collection")
+    let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: 1})
     let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);

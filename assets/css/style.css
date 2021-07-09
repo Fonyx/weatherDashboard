@@ -1,7 +1,11 @@
+/* https://color.adobe.com/search?q=weather */
+
 :root {
-    --teal: #26a69a;
-    --dark_teal: #155e56;
-    --selected: #41c1f3;
+    --darkest-blue: #083359;
+    --darker-blue: #56738C;
+    --blue: #4590BF;
+    --lighter-blue: #9AC1D9;
+    --lightest-blue: #E9EFF2;
 }
 
 #brand_title{
@@ -12,36 +16,36 @@ a.secondary-content{
     cursor: default;
 }
 
-/* .selected{
-    background-color: var(--selected) !important;
-} */
+.collection:hover .collection:active{
+    background-color: var(--lighter-blue) !important;
+}
 
 
 /* label color */
 .input-field label {
-color: var(--dark_teal);
+color: var(--darker-blue);
 }
 /* label focus color */
 .input-field input[type=text]:focus + label {
-color: var(--teal);
+color: var(--blue);
 }
 /* label underline focus color */
 .input-field input[type=text]:focus {
-border-bottom: 1px solid var(--teal);
-box-shadow: 0 1px 0 0 var(--teal);
+border-bottom: 1px solid var(--darkest-blue);
+box-shadow: 0 1px 0 0 var(--darkest-blue);
 }
 /* valid color */
 .input-field input[type=text].valid {
-border-bottom: 1px solid var(--teal);
-box-shadow: 0 1px 0 0 var(--teal);
+border-bottom: 1px solid var(--darkest-blue);
+box-shadow: 0 1px 0 0 var(--darkest-blue);
 }
 /* invalid color */
 .input-field input[type=text].invalid {
-border-bottom: 1px solid var(--teal);
-box-shadow: 0 1px 0 0 var(--teal);
+border-bottom: 1px solid var(--darkest-blue);
+box-shadow: 0 1px 0 0 var(--darkest-blue);
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
-color: var(--teal);
+color: var(--darkest-blue);
 }
        

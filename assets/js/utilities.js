@@ -5,7 +5,8 @@ $(document).ready(function(){
 });
 
 // makes a jquery element with class and Id
-function makeNewJqueryElement(elementType, classString, idString, textString){
+// makeNewJqueryElement :: (String, String, String, String, Object) -> Jquery.newElement
+function makeNewJqueryElement(elementType, classString, idString, textString, dataValue){
   let newElement = $('<'+elementType+'>');
   if(classString){
       newElement.addClass(classString);
@@ -16,8 +17,12 @@ function makeNewJqueryElement(elementType, classString, idString, textString){
   if(textString){
     newElement.text(textString);
   }
+  if(dataValue){
+    newElement.attr('data-'+dataValue.name, dataValue.value);
+  }
   return newElement;
 }
+
 let countryInputEL = $('#country_search_input');
 countryInputEL.on('change', function(){
   countryChoiceIndex = -1;
