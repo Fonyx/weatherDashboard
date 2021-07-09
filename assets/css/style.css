@@ -1,11 +1,15 @@
 /* https://color.adobe.com/search?q=weather */
-
 :root {
     --darkest-blue: #083359;
     --darker-blue: #56738C;
     --blue: #4590BF;
     --lighter-blue: #9AC1D9;
     --lightest-blue: #E9EFF2;
+    --reset-red: #F23838;
+}
+
+body{
+    background-color: #E9EFF2;
 }
 
 #brand_title{
@@ -16,8 +20,28 @@ a.secondary-content{
     cursor: default;
 }
 
-.collection:hover .collection:active{
-    background-color: var(--lighter-blue) !important;
+.secondary-content{
+    color: var(--blue);
+}
+
+.collection .collection-item{
+    background-color: var(--lighter-blue);
+}
+
+.collection:hover .collection-item{
+    background-color: var(--blue);
+}
+
+nav{
+    background-color: var(--lighter-blue);
+}
+
+#search-button{
+    background-color: var(--lighter-blue);
+}
+
+#reset-button{
+    background-color: var(--reset-red);
 }
 
 
