@@ -46,7 +46,7 @@ function addEventListenersToHistoryItems(){
     let historyCards = $('li.collection');
 
     for(let i=0; i< historyCards.length; i++){
-        historyCards[i].addEventListener('click', updateCurrentWeatherSelection);
+        historyCards[i].addEventListener('click', UserClickedUpdateCurrentWeatherSelection);
     }
 }
 
@@ -96,7 +96,17 @@ function makeWeatherQueryString(city){
     return queryString;
 }
 
-function updateCurrentWeatherSelection(event){
+function AssignCurrentWeatherSelection(index){
+    resetAllHistoryCardColors();
+    let historyCards = $('#history_list').find('div');
+    $(historyCards[index]).addClass('purple lighten-3');
+    currentSelection = 0;
+    let currentCityObject = storage[currentSelection];
+    console.log('Auto assigned city object is:\n\t');
+    console.log(currentCityObject);
+}
+
+function UserClickedUpdateCurrentWeatherSelection(event){
     resetAllHistoryCardColors();
     currentSelection = parseInt(event.target.parentElement.dataset['index'])
     let currentCityObject = storage[currentSelection];
@@ -159,7 +169,7 @@ function queryWeatherAPI(city, countryQueryName){
 function removeEventListenersFromHistoryItems(){
     let historyCards = $('li.collection');
     for(let i=0; i< historyCards.length; i++){
-        historyCards[i].removeEventListener('click', updateCurrentWeatherSelection);
+        historyCards[i].removeEventListener('click', UserClickedUpdateCurrentWeatherSelection);
     }
 }
 
@@ -198,8 +208,12 @@ function renderCityWeatherObjects(cityObjects){
         // add the event handler for change of weather selection
         removeEventListenersFromHistoryItems();
         addEventListenersToHistoryItems();
-
     }
+    // set the selection indicator and the currentSelection global to the first element
+    // wait for 0.5 second to finish load
+    setTimeout(function(){
+        AssignCurrentWeatherSelection(0);
+    }, 500)
 }
 
 function resetAllHistoryCardColors(){
