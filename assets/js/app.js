@@ -18,24 +18,6 @@ saveName = 'cityWeather'
 currentSelection = 0;
 
 
-function makeGeocodeQueryString(searchString, CountryCode){
-    let queryString = ""
-    if (CountryCode){
-        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key;
-    } else {
-        // limiting to first 5 returned - assuming they are appropriately sorted (population maybe)
-        queryString = geocodingApiRoot + "?q="+searchString+'&limit=5&appid='+geocodingAPI_key;
-    }
-    console.log(`Geocode query string built: ${queryString}`);
-    return queryString;
-}
-
-function makeWeatherQueryString(city){
-    let part = ['minutely', 'hourly', 'alerts']  // leaving current only
-    queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+"&exclude="+part+"&appid="+weatherAPI_key
-    return queryString;
-}
-
 function addCityToLocalStorage(city, data, countryQueryName){
     console.log('collecting stored data');
     let pastStorage = JSON.parse(localStorage.getItem(saveName));
@@ -58,17 +40,13 @@ function addCityToLocalStorage(city, data, countryQueryName){
     localStorage.setItem(saveName, JSON.stringify(pastStorage));
 }
 
-function loadAndRenderStorage(){
-    console.log('collecting stored data');
-    let storage = JSON.parse(localStorage.getItem(saveName));
-    if(storage){
-        // render cityWeather objects
-        for(let i=0; i < storage.length; i++){
-            renderCurrentCityWeather(storage[i].city, storage[i].data);
-        }
-    }else{
-        // render placeholder for current weather
-        console.log("No persisting data");
+function addEventListenersToHistoryItems(){
+    let historyCards = $('li.collection');
+
+    for(let i=0; i< historyCards.length; i++){
+        console.log('adding event listener to element');
+        console.log(historyCards[i]);
+        historyCards[i].addEventListener('click', updateCurrentWeatherSelection);
     }
 }
 
@@ -88,6 +66,43 @@ function getWeatherIconStr(data){
     } else {
         return "ac_unit";
     }
+}
+
+function loadAndRenderStorage(){
+    console.log('collecting stored data');
+    let storage = JSON.parse(localStorage.getItem(saveName));
+    if(storage){
+        // render cityWeather objects
+        for(let i=0; i < storage.length; i++){
+            renderCurrentCityWeather(storage[i].city, storage[i].data);
+        }
+    }else{
+        // render placeholder for current weather
+        console.log("No persisting data");
+    }
+}
+
+function makeGeocodeQueryString(searchString, CountryCode){
+    let queryString = ""
+    if (CountryCode){
+        queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key;
+    } else {
+        // limiting to first 5 returned - assuming they are appropriately sorted (population maybe)
+        queryString = geocodingApiRoot + "?q="+searchString+'&limit=5&appid='+geocodingAPI_key;
+    }
+    console.log(`Geocode query string built: ${queryString}`);
+    return queryString;
+}
+
+function makeWeatherQueryString(city){
+    let part = ['minutely', 'hourly', 'alerts']  // leaving current only
+    queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+"&exclude="+part+"&appid="+weatherAPI_key
+    return queryString;
+}
+
+function updateCurrentWeatherSelection(event){
+    console.log('event triggered');
+    console.log(event.parent.target);
 }
 
 function queryGeocodingCityAPI(queryString, countryQueryName){
@@ -149,6 +164,15 @@ function queryWeatherAPI(city, countryQueryName){
     })
 }
 
+function removeEventListenersFromHistoryItems(){
+    let historyCards = $('li.collection');
+    for(let i=0; i< historyCards.length; i++){
+        console.log('removing event listener from element');
+        console.log(historyCards[i]);
+        historyCards[i].removeEventListener('click', updateCurrentWeatherSelection);
+    }
+}
+
 function renderCurrentCityWeather(city, data){
     // rendering history card first
     console.log('Adding city to history bar: ');
@@ -165,12 +189,16 @@ function renderCurrentCityWeather(city, data){
     let linkEl = makeNewJqueryElement('a', 'secondary-content');
     let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
 
-    // specifically give the a link an empty href since helper function can't
+    // specifically give the a link an empty href since helper function can't give an href function
     linkEl.attr('href', '#');
 
     // add the temperature to the link element
     let currentTemp = Math.round(data.current.temp - 273, 1);
     linkEl.text(currentTemp+"°C ");
+
+    // add the event handler for change of weather selection
+    removeEventListenersFromHistoryItems();
+    addEventListenersToHistoryItems();
 
     // build structure
     linkEl.append(iconEl);
