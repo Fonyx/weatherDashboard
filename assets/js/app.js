@@ -12,7 +12,7 @@ weatherHero = $('#weather_hero');
 weatherCards = $('#weather_cards');
 
 weatherApiRoot = "https://api.openweathermap.org/data/2.5/onecall"
-geocodingApiRoot = "http://api.openweathermap.org/geo/1.0/direct"
+geocodingApiRoot = "https://api.openweathermap.org/geo/1.0/direct"
 
 weatherAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
 geocodingAPI_key = "cfa986a892adc335000bb8a3ce3c9c06"
