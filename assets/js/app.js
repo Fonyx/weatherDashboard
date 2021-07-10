@@ -191,6 +191,20 @@ function renderCityWeatherObjects(cityObjects){
         // dynamically assign icon class based on data
         let iconName = getWeatherIconStr(data);
 
+        // making this format
+        /*
+        <div class="card">
+            <div class="card-image">
+                <img src="">
+                <span class="card-title">Card Title</span>
+                <span class="card-title">
+                    <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                </span>
+            </div>
+        </div>
+        */
+
         // create elements for a city li
         let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
         let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country);
