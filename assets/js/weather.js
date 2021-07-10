@@ -75,11 +75,9 @@ weatherInformation = [
 ]
 
 function getWeatherDetail(id){
-    console.log('looking for weather details with id:',id)
     for(let i =0; i < weatherInformation.length; i++){
         if(weatherInformation[i].id === id){
             let weatherDetail = weatherInformation[i];
-            console.log(weatherDetail);
             return weatherDetail;
         }
     }

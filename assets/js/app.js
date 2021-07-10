@@ -21,6 +21,7 @@ saveName = 'cityWeather'
 
 currentSelection = 0;
 storage = [];
+multipleReturnLimit = 3;
 
 
 function addCityToLocalStorage(city, data, countryQueryName){
@@ -91,7 +92,7 @@ function makeGeocodeQueryString(searchString, CountryCode){
         queryString = geocodingApiRoot + "?q="+searchString+','+CountryCode+'&appid='+geocodingAPI_key;
     } else {
         // limiting to first 5 returned - assuming they are appropriately sorted (population maybe)
-        queryString = geocodingApiRoot + "?q="+searchString+'&limit=5&appid='+geocodingAPI_key;
+        queryString = geocodingApiRoot + "?q="+searchString+',&limit='+multipleReturnLimit+'&appid='+geocodingAPI_key;
     }
     return queryString;
 }
@@ -186,11 +187,9 @@ function renderCityWeatherObjects(cityObjects){
     for(let i =0; i < cityObjects.length; i++){
         let city = cityObjects[i].city;
         let data = cityObjects[i].data;
-        // rendering history card first
 
         // dynamically assign icon class based on data
         let iconName = getWeatherIconStr(data);
-        // let listElClass = selected ? "collection-item z-depth-1 selected" : "collection-item z-depth-1";
 
         // create elements for a city li
         let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
@@ -233,9 +232,6 @@ function renderCurrentWeather(){
     let current_temp = Math.round(weather.temp - 273, 1);
     let current_time =  moment(weather.dt);
     let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
-
-    console.log('Current city object is:',city, weather);
-    console.log(weather.uvi);
 
     // get uv index color
     let uv_index_color = getColorClassForUV();

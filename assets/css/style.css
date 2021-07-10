@@ -14,12 +14,9 @@ body {
     min-height: 100vh;
     flex-direction: column;
 }
-main {
-flex: 1 0 auto;
-}
 
-body{
-    background-color: var(--lightest-blue);
+main {
+    flex: 1 0 auto;
 }
 
 #brand_title{
