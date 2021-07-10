@@ -11,95 +11,265 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- add material design icons from google fonts-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- add custom styles -->
-    <link rel="stylesheet" href="./assets/css/style.css">
     <!-- javascript runtime load-->
     <script defer src="./assets/js/app.js"></script>
     <!-- weather details -->
     <script defer src="./assets/js/weather.js"></script>
+    <!-- moment import -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <!-- add custom styles -->
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body onload="loadAndRenderStorage();">
-  
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#" id="brand_title" class="brand-logo center">Weather Dashboard</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li>
-                    <a href="https://home.openweathermap.org/">WEATHER API</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<body onload="RenderStorage();">
 
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" id="brand_title" class="brand-logo center">Weather Dashboard</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="https://home.openweathermap.org/">WEATHER API</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
     <!-- Page Layout here -->
-    <div class="main">
-        <div class="row">
-            <div class="col s3">
-                <section class="section no-pad-bot">
-                    <form autocomplete="off">
-                        <div class="row">
-                            <div class="input-field">
-                                <i class="material-icons prefix">add_location</i>
-                                <input type="text" id="city_search_input" class="materialize-input"
-                                onkeyup="this.setAttribute('data-choice', this.value);">
-                                <label for="city_search_input">Search City</label>
+    <main id="content_section">
+        <!-- <div class="parallax-container">
+            <div class="parallax">
+                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
+                alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
+            </div>
+        </div> -->
+        
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m12 l4">
+                    <section class="section no-pad-bot">
+                        <form autocomplete="off">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">add_location</i>
+                                        <input type="text" id="city_search_input" class="materialize-input"
+                                        onkeyup="this.setAttribute('data-choice', this.value);">
+                                        <label for="city_search_input">Search City</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="input-field">
-                                <i class="material-icons prefix">add_location</i>
-                                <input type="text" id="country_search_input" class="materialize-input"
-                                onkeyup="this.setAttribute('data-choice', this.value);">
-                                <label for="city_search_input">Search Country</label>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">add_location</i>
+                                        <input type="text" id="country_search_input" class="materialize-input"
+                                        onkeyup="this.setAttribute('data-choice', this.value);">
+                                        <label for="city_search_input">Filter Country</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col s-6">
-                                <button id="search-button" 
-                                class="btn-large waves-light" type="submit" name="submit" >Search</button>
+                            <div class="row">
+                                <div class="col s4 offset-s2 m5 offset-m1">
+                                    <div class="center-align">
+                                        <button id="search-button" 
+                                        class="btn-large waves-light" type="submit" name="submit" >Search</button>
+                                    </div>
+                                </div>
+                                <div class="col s4 m5">
+                                    <div class="center-align">
+                                        <button id="reset-button" 
+                                        class="btn-large waves-light" type="submit" name="submit" >Reset</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col s-6">
-                                <button id="reset-button" 
-                                class="btn-large waves-light" type="submit" name="submit" >Reset</button>
+                        </form>
+                    </section>
+                    <section class="divider"></section>
+                    <section class="" id="history_list">
+                    </section>
+                </div>
+                
+                <div class="col s12 m12 l8">
+                    <div class="row" id="weather_hero">
+                        <!-- <div class="card">
+                            <div class="card-image">
+                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                                <span class="card-title">ADD A CITY TO SEE WEATHER</span>
+                            </div>
+                        </div> -->
+                        <!-- <div class="card">
+                            <div class="card-image">
+                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                                <span class="card-title">City Country</span>
+                            </div>
+                            <div class="card-content">
+                                
+                                <div class="row">
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>Query time</p>
+                                    </div>
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>Sunrise/Sunset Icon</p>
+                                    </div>
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>Temp+°C</p>
+                                    </div>
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>Wind Speed</p>
+                                    </div>
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>Humidity</p>
+                                    </div>
+                                    <div class="col s12 m12 l2 align-center">
+                                        <p>UV Index</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                                <div class="card-title" id="hero_card_text">
+                                    <div class="row">
+                                        <div class="col">
+                                            Canberra AU 
+                                        </div>
+                                        <div class="col">
+                                            <img class="hero_icon" src="http://openweathermap.org/img/wn/04d@2x.png">
+                                        </div>
+                                        <div class="col">
+                                            <i id="hreo_sun" class="large material-icons blue-text">brightness_2</i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            July 10th 2021, 6:28:50 pm
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            Temp 8°​C (3°​C) Wind 2.57m/s Humidity 78%
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="hero_uv btn black-text red lighten-2">UVI 0%</p>
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
                         </div>
-                    </form>
-                </section>
-                <section class="divider"></section>
-                <section class="" id="history_list">
-                    
-                </section>
-            </div>
-      
-            <div class="col s9">
-              <!-- Current city Today goes here  -->
-              <div id="index-banner" class="parallax-container">
-                <div class="section no-pad-bot">
-                  <div class="container">
-                    <br><br>
-                    <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
-                    <div class="row center">
-                      <h5 class="header white-text col s12 light">A modern responsive front-end framework based on Material Design</h5>
+
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                                <div class="card-title" id="hero_card_text2">
+                                    <div class="row">
+                                        <div class="col">
+                                            Canberra AU 
+                                        </div>
+                                        <div class="col">
+                                            <img class="hero_icon" src="http://openweathermap.org/img/wn/04d@2x.png">
+                                        </div>
+                                        <div class="col">
+                                            <i id="hero_sun" class="large material-icons blue-text">brightness_2</i>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="card-content valign-wrapper">
+                                    <div class="col">
+                                        <span class="hide-on-med-and-down">July 10th 2021,</span>6:28:50 pm
+                                    </div>
+                                    <div class="col">
+                                        Temp 8°​C (3°​C)
+                                    </div>
+                                    <div class="col">
+                                        Wind 2.57m/s
+                                    </div>
+                                    <div class="col">
+                                        Humidity: 78%
+                                    </div>
+                                    <div class="col">
+                                        <p class="hero_uv btn black-text red lighten-3"><span class="hide-on-med-and-down">UVI</span>0%</p>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="row center">
-                      <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+                    <section class="divider"></section>
+                    <div class="row center-align">
+                        <h3>FORECAST</h3>
                     </div>
-                  </div>
+                    <div class="row" id="weather_cards">
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://nypost.com/wp-content/uploads/sites/2/2020/12/111518_NYC_November_snow_stormPM_3.jpg?quality=80&strip=all&w=1024">
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://thumbs-prod.si-cdn.com/wIrZprGj4C-A0EIC6uysJToapeo=/fit-in/1600x0/https://public-media.si-cdn.com/filer/1d/37/1d37df99-52cb-48a9-a322-df4b0bfd3f4b/hyamy0.jpg">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://www.bestservices.co.uk/wp-content/uploads/2017/11/shutterstock_281493026-2-2560x850.jpg">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="parallax">
-                    <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
-                    alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
-                </div>
-              </div>
             </div>
         </div>
-    </div>
+    </main>
     
-    <footer class="footer">
+    <footer class="page-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">MADE BY: FONYX</h5>
+              <p class="grey-text text-lighten-4">Utilizing Open Weather API</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+              <h5 class="white-text">LINKS</h5>
+              <ul>
+                <li><a class="grey-text text-lighten-3" href="#!">Github Profile</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Project Repo</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          © 2021 Published
+          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+          </div>
+        </div>
     </footer>
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <!-- optimized loading of materialize-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
     <!-- custom javascript utilities-->
     <script src="./assets/js/utilities.js"></script>
     <script src="./assets/js/utilities.test.js"></script>
+    <!-- optimized loading of materialize-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

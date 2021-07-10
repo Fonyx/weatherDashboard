@@ -8,12 +8,25 @@
     --reset-red: #F23838;
 }
 
-body{
-    background-color: #E9EFF2;
+/* Materialize requires these body settings for the footer to stick to page bottom */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 #brand_title{
     cursor: default;
+}
+
+#hero_card_text{
+    background-color: black;
+    border-radius: 25px;
+    opacity: 65%;
 }
 
 a.secondary-content{
@@ -21,7 +34,7 @@ a.secondary-content{
 }
 
 .secondary-content{
-    color: var(--blue);
+    color: var(--darker-blue);
 }
 
 .collection .collection-item{
@@ -31,6 +44,36 @@ a.secondary-content{
 .collection:hover .collection-item{
     background-color: var(--blue);
 }
+
+/* override width of container */
+.container {
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 90%;
+  }
+  @media only screen and (min-width: 601px) {
+    .container {
+      width: 90%;
+    }
+  }
+  @media only screen and (min-width: 993px) {
+    .container {
+      width: 90%;
+    }
+  }
+/* make icons smaller for history icons */
+.history_card_icon {
+    width: 14%;
+}
+.history_card_text{
+    float: left;
+}
+
+/* #hero_card_text2{
+    position: relative;
+    right: 0%;
+    top:0%;
+} */
 
 nav{
     background-color: var(--lighter-blue);
@@ -51,25 +94,25 @@ color: var(--darker-blue);
 }
 /* label focus color */
 .input-field input[type=text]:focus + label {
-color: var(--blue);
+color: var(--blue) !important;
 }
 /* label underline focus color */
 .input-field input[type=text]:focus {
-border-bottom: 1px solid var(--darkest-blue);
-box-shadow: 0 1px 0 0 var(--darkest-blue);
+border-bottom: 1px solid var(--darkest-blue) !important;
+box-shadow: 0 1px 0 0 var(--darkest-blue) !important;
 }
 /* valid color */
 .input-field input[type=text].valid {
-border-bottom: 1px solid var(--darkest-blue);
-box-shadow: 0 1px 0 0 var(--darkest-blue);
+border-bottom: 1px solid var(--darkest-blue) !important;
+box-shadow: 0 1px 0 0 var(--darkest-blue) !important;
 }
 /* invalid color */
 .input-field input[type=text].invalid {
-border-bottom: 1px solid var(--darkest-blue);
-box-shadow: 0 1px 0 0 var(--darkest-blue);
+border-bottom: 1px solid var(--darkest-blue) !important;
+box-shadow: 0 1px 0 0 var(--darkest-blue) !important;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
-color: var(--darkest-blue);
+color: var(--darkest-blue) !important;
 }
        
