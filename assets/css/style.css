@@ -23,6 +23,10 @@ main {
     cursor: default;
 }
 
+#main_backdrop{
+    min-height: 76vh;
+}
+
 a.secondary-content{
     cursor: default;
 }

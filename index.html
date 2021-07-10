@@ -37,61 +37,79 @@
     
     <!-- Page Layout here -->
     <main id="content_section">
-        <div class="container">
-            <div class="row">
-                <div class="col s4">
-                    <section class="section no-pad-bot">
-                        <form autocomplete="off">
-                            <div class="row">
-                                <div class="input-field">
-                                    <i class="material-icons prefix">add_location</i>
-                                    <input type="text" id="city_search_input" class="materialize-input"
-                                    onkeyup="this.setAttribute('data-choice', this.value);">
-                                    <label for="city_search_input">Search City</label>
+        <!-- <div class="parallax-container">
+            <div class="parallax">
+                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
+                alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
+            </div>
+        </div> -->
+        
+        <div class="parallax-container" id="main_backdrop">
+            <div class="container">
+                <div class="row">
+                    <div class="col s4">
+                        <section class="section no-pad-bot">
+                            <form autocomplete="off">
+                                <div class="row">
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">add_location</i>
+                                        <input type="text" id="city_search_input" class="materialize-input"
+                                        onkeyup="this.setAttribute('data-choice', this.value);">
+                                        <label for="city_search_input">Search City</label>
+                                    </div>
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">add_location</i>
+                                        <input type="text" id="country_search_input" class="materialize-input"
+                                        onkeyup="this.setAttribute('data-choice', this.value);">
+                                        <label for="city_search_input">Search Country</label>
+                                    </div>
+                                    <div class="col s-6">
+                                        <button id="search-button" 
+                                        class="btn-large waves-light" type="submit" name="submit" >Search</button>
+                                    </div>
+                                    <div class="col s-6">
+                                        <button id="reset-button" 
+                                        class="btn-large waves-light" type="submit" name="submit" >Reset</button>
+                                    </div>
                                 </div>
-                                <div class="input-field">
-                                    <i class="material-icons prefix">add_location</i>
-                                    <input type="text" id="country_search_input" class="materialize-input"
-                                    onkeyup="this.setAttribute('data-choice', this.value);">
-                                    <label for="city_search_input">Search Country</label>
-                                </div>
-                                <div class="col s-6">
-                                    <button id="search-button" 
-                                    class="btn-large waves-light" type="submit" name="submit" >Search</button>
-                                </div>
-                                <div class="col s-6">
-                                    <button id="reset-button" 
-                                    class="btn-large waves-light" type="submit" name="submit" >Reset</button>
-                                </div>
-                            </div>
-                        </form>
-                    </section>
-                    <section class="divider"></section>
-                    <section class="" id="history_list">
-                        
-                    </section>
-                </div>
-                <div class="col s8">
-                    <div class="row" id="weather_hero">
-                        <div class="parallax-container">
-                            <div class="container">
-                            <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
-                            <div class="row center">
-                                <h5 class="header white-text col s12 light">A modern responsive front-end framework based on Material Design</h5>
-                            </div>
-                            </div>
-                            <div class="parallax">
-                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
-                                alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
-                            </div>
-                          </div>
+                            </form>
+                        </section>
+                        <section class="divider"></section>
+                        <section class="" id="history_list">
+                            
+                        </section>
                     </div>
-                    <div class="row" id="weather_cards">
+                    <div class="col s8">
+                        <div class="row" id="weather_hero">
+                            <div class="card">
+                                <!-- <div class="card-image"> -->
+                                <!-- <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"> -->
+                                <span class="card-title">Card Title</span>
+                                <div class="parallax-container">
+                                <div class="parallax">
+                                    <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
+                                    alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
+                                </div>
 
+                                <!-- </div> -->
+                                </div>
+                                <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row" id="weather_cards">
+
+                        </div>
+                    <!-- Current city Today goes here  -->
+                    
                     </div>
-                  <!-- Current city Today goes here  -->
-                  
                 </div>
+            <div class="parallax">
+                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
+                alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
             </div>
         </div>
     </main>
