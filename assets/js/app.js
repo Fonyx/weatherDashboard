@@ -244,6 +244,7 @@ function renderCityWeatherObjects(cityObjects){
 function renderCurrentWeather(){
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
+    let data = storage[currentSelection].data;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
     // let dayIconUrl = "http://openweathermap.org/img/wn/01d@2x.png";
     // let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
@@ -328,9 +329,47 @@ function renderCurrentWeather(){
     weatherHero.append(cardEl);
 
     // render forecast cards below
-    // add details: City, Date, weather-icon temp, wind speed, humidity, UV index with color representation
-    let forecast = storage[currentSelection].data.daily;
+    renderForecast(data);
 }
+
+function renderForecast(data){
+
+    // reset cards
+    weatherCards.text("");
+
+    for(let i=0; i < 5; i++){
+        let weather = data.daily[i];
+        console.log(weather);
+        let current_temp = Math.round(weather.temp.day, 1);
+        let current_time =  moment.unix(weather.dt);
+        let current_time_display = current_time.format('MMMM Do YYYY');
+        // lookup weather info for this id.
+        let weatherDetail = getWeatherDetail(weather.weather[0].id);
+        let weatherIcon = weatherDetail.day_icon;
+        let humidity = weather.humidity;
+
+        let cardEl = makeNewJqueryElement('div', 'card horizontal', null, null, {name :'index', value: i});
+        let cardImgDivEl = makeNewJqueryElement('div', 'card-image');
+        cardEl.append(cardImgDivEl);
+
+        let cardImgEl = makeNewJqueryElement('img', 'forecast_image');
+        cardImgEl.attr('src', weatherDetail.parallax_url)
+        cardImgDivEl.append(cardImgEl);
+
+        let cardContentEl = makeNewJqueryElement('div', 'card-content');
+        cardEl.append(cardContentEl);
+
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_date',null, current_time_display));
+        let imgEl = makeNewJqueryElement('img', 'forecast_icon');
+        imgEl.attr('src', weatherIcon);
+        cardContentEl.append(imgEl);
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_temp', null , 'Day Max '+current_temp+"°​C"));
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_wind', null , 'Wind '+weather.wind_speed.toString()+" m/s"));
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_humidity', null, 'Humidity '+humidity+'%'));
+        weatherCards.append(cardEl);
+    }
+}
+
 
 function resetAllHistoryCardColors(){
     let historyCards = $('#history_list').find('div');
