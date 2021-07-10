@@ -53,10 +53,10 @@ function addEventListenersToHistoryItems(){
     }
 }
 
-function isSunUp(data){
-    let queryTime = data.current.dt;
-    let sunrise = data.current.sunrise;
-    let sunset = data.current.sunset;
+function isSunUp(current){
+    let queryTime = current.dt;
+    let sunrise = current.sunrise;
+    let sunset = current.sunset;
 
     // if the sun is up there
     if(queryTime >sunrise && queryTime<sunset){
@@ -66,11 +66,11 @@ function isSunUp(data){
     }
 }
 
-function getWeatherIconStr(data){
+function getWeatherIconStr(current){
 
-    let weatherInfo = getWeatherDetail(data.current.weather[0].id);
+    let weatherInfo = getWeatherDetail(current.weather[0].id);
 
-    if(isSunUp(data)){
+    if(isSunUp(current)){
         return weatherInfo.day_icon;
     } else {
         return weatherInfo.night_icon;
@@ -78,8 +78,16 @@ function getWeatherIconStr(data){
 
 }
 
-function getColorClassForUV(){
-    return "purple lighten-2"
+function getColorClassForUV(uvi){
+    // uvi ranges from 0 - 1
+    // expand range to 0-5 to fit the materialize lighten scheme
+    let scaledNumber = Math.round(5*uvi);
+    let frontNumber = parseInt(scaledNumber, 10).toString();
+    // let frontNumber = integerUvi.toString().charAt(0);
+
+    // invert the scale
+    let inverseResult = 5 - parseInt(frontNumber, 10);
+    return "red lighten-"+inverseResult;
 }
 
 function RenderStorage(){
@@ -197,7 +205,7 @@ function renderCityWeatherObjects(cityObjects){
         let data = cityObjects[i].data;
 
         // dynamically assign icon class based on data
-        let iconUrl = getWeatherIconStr(data);
+        let iconUrl = getWeatherIconStr(data.current);
 
         let currentTemp = Math.round(data.current.temp, 1);
 
@@ -234,71 +242,94 @@ function renderCityWeatherObjects(cityObjects){
 }
 
 function renderCurrentWeather(){
-
-    // making this card
-    /*
-    <div class="card">
-        <div class="card-image">
-            <img src=>
-            <span class="card-title">Card Title</span>
-            <span class="card-title">
-                <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
-            </span>
-        </div>
-    </div>
-    */
-
-
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
-    let forecast = storage[currentSelection].data.daily;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
+    let dayIconUrl = "http://openweathermap.org/img/wn/01d@2x.png";
+    let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
 
     let current_temp = Math.round(weather.temp, 1);
     let current_time =  moment(weather.dt);
     let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
 
-    // get uv index color
-    let uv_index_color = getColorClassForUV();
+    let sunUp = isSunUp(weather);
 
-    // render hero place
-    // add details: City, Date, weather-icon temp, windspeed, humidity, UV index with color repr
-    let bannerEl = makeNewJqueryElement('div', 'parallax-container', 'hero-container');
-    let innerContEl = makeNewJqueryElement('div', 'container');
-    let cityEl = makeNewJqueryElement('h3', 'hero_city', null, city.name+" : "+city.country);
-    let dateEl = makeNewJqueryElement('h4', 'hero_cate', null, current_time_display)
-    let weatherIconEl = makeNewJqueryElement('i', 'hero_icon', null, weather.weather[0].icon)
-    let tempEl = makeNewJqueryElement('p', 'hero_text', null, current_temp.toString()+"°​C");
-    let windEl = makeNewJqueryElement('p', 'hero_wind', null, weather.wind_speed.toString()+"Mph");
-    let humidityEl = makeNewJqueryElement('p', 'hero_humidity', null, weather.humidity.toString()+"%");
-    let UvEl = makeNewJqueryElement('p', 'hero_uv '+uv_index_color, null, weather.uvi.toString()+"%");
-    let parallaxEl = makeNewJqueryElement('div', 'parallax');
-    let parallaxImg = makeNewJqueryElement('img');
+    // get uv index color
+    let uv_index_color = getColorClassForUV(weather.uvi);
+
+    // set icon to use
+    let weatherIcon = sunUp ? weatherDetail.day_icon : weatherDetail.night_icon;
+    let sunIcon = sunUp ? dayIconUrl : nightIconUrl
+
+    // making this card
+    /*
+    <div class="card">
+        <div class="card-image">
+            <img src=weatherDetail.parallax_url>
+            <span class="card-title">City Country</span>
+        </div>
+        <div class="card-content">
+            <span class="card-content">
+                <p>Query time</p>
+                <p>Weather Icon</p>
+                <p>Sunrise/Sunset Icon</p>
+                <p>Temp+°C</p>
+                <p>Wind Speed</p>
+                <p>Humidity</p>
+                <p>UV Index</p>
+            </span>
+        </div>
+    </div>
+    */
+    // card title section
+    let cardEl = makeNewJqueryElement('div', 'card', 'hero-card');
+    let cardImageDivEL = makeNewJqueryElement('div', 'card-image');
+    cardEl.append(cardImageDivEL);
+
+    // make the image
+    let cardImgEl = makeNewJqueryElement('img', 'hero-image'); 
+    cardImgEl.attr('src', weatherDetail.parallax_url)
+    cardImageDivEL.append(cardImgEl)
+
+
+    cardImageDivEL.append(makeNewJqueryElement('span', 'card-title', 'hero-title', city.name+" : "+city.country))
+
+    // || card-content section
+    // create card-content section
+    let cardContentEl = makeNewJqueryElement('div', 'card-content');
+    cardEl.append(cardContentEl);
+
+    // create content span
+    let contentSpanEl = makeNewJqueryElement('span', 'card-content');
+    cardContentEl.append(contentSpanEl);
+
+    // add query time
+    contentSpanEl.append(makeNewJqueryElement('h4', 'hero_query_time', null, current_time_display));
+
+    // add the weather icon
+    let weatherIconEl = makeNewJqueryElement('img', 'hero_icon', null); // need to set src separately
+    weatherIconEl.attr('src', weatherIcon);
+    contentSpanEl.append(weatherIconEl);
+
+    // add the sunrise/sunset icon
+    let sunriseSetIconEl = makeNewJqueryElement('img', 'hero_sun', null); 
+    sunriseSetIconEl.attr('src', sunIcon);
+    contentSpanEl.append(sunriseSetIconEl);
     
-    // nest and append to weatherHero
+    // add temp, wind speed, humidity and uvi
+    contentSpanEl.append(makeNewJqueryElement('p', 'hero_text', null, current_temp.toString()+"°​C"));
+    contentSpanEl.append(makeNewJqueryElement('p', 'hero_wind', null, weather.wind_speed.toString()+"m/s"));
+    contentSpanEl.append(makeNewJqueryElement('p', 'hero_humidity', null, weather.humidity.toString()+"%"))
+    contentSpanEl.append(makeNewJqueryElement('p', 'hero_uv btn '+uv_index_color, null, weather.uvi.toString()+"%"));
+
     // reset hero to empty
     weatherHero.text("");
-
-    // add the src to parallaxImg element
-    parallaxImg.attr('src', weatherDetail.parallax_url);
-    parallaxImg.attr('style', "transform: translate3d(-50%, 397.495px, 0px); opacity: 1;");
-
-    // restack weather hero
-    parallaxEl.append(parallaxImg);
-    innerContEl.append(cityEl);
-    innerContEl.append(dateEl);
-    innerContEl.append(weatherIconEl);
-    innerContEl.append(tempEl);
-    innerContEl.append(windEl);
-    innerContEl.append(humidityEl);
-    innerContEl.append(UvEl);
-    innerContEl.append(parallaxEl);
-    bannerEl.append(innerContEl);
-    weatherHero.append(bannerEl);
+    // append new hero card
+    weatherHero.append(cardEl);
 
     // render forecast cards below
-    // add details: City, Date, weather-icon temp, windspeed, humidity, UV index with color repr
+    // add details: City, Date, weather-icon temp, wind speed, humidity, UV index with color representation
+    let forecast = storage[currentSelection].data.daily;
 }
 
 function resetAllHistoryCardColors(){
