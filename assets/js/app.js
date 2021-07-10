@@ -221,13 +221,14 @@ function renderCityWeatherObjects(cityObjects){
     // wait for 0.5 second to finish load
     setTimeout(function(){
         assignCurrentWeatherSelection(0);
-    }, 500)
+    }, 200)
 }
 
 function renderCurrentWeather(){
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
     let forecast = storage[currentSelection].data.daily;
+    let weatherDetail = getWeatherDetail(weather.weather[0].id);
 
     let current_temp = Math.round(weather.temp - 273, 1);
     let current_time =  moment(weather.dt);
@@ -250,12 +251,19 @@ function renderCurrentWeather(){
     let windEl = makeNewJqueryElement('p', 'hero_wind', null, weather.wind_speed.toString()+"Mph");
     let humidityEl = makeNewJqueryElement('p', 'hero_humidity', null, weather.humidity.toString()+"%");
     let UvEl = makeNewJqueryElement('p', 'hero_uv '+uv_index_color, null, weather.uvi.toString()+"%");
+    let parallaxEl = makeNewJqueryElement('div', 'parallax');
+    let parallaxImg = makeNewJqueryElement('img');
     
     // nest and append to weatherHero
     // reset hero to empty
     weatherHero.text("");
 
+    // add the src to parallaxImg element
+    parallaxImg.attr('src', weatherDetail.parallax_url);
+    parallaxImg.attr('style', "transform: translate3d(-50%, 397.495px, 0px); opacity: 1;");
+
     // restack weather hero
+    parallaxEl.append(parallaxImg);
     innerContEl.append(cityEl);
     innerContEl.append(dateEl);
     innerContEl.append(weatherIconEl);
@@ -263,6 +271,7 @@ function renderCurrentWeather(){
     innerContEl.append(windEl);
     innerContEl.append(humidityEl);
     innerContEl.append(UvEl);
+    innerContEl.append(parallaxEl);
     bannerEl.append(innerContEl);
     weatherHero.append(bannerEl);
 

@@ -1,11 +1,7 @@
 // weather types: https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
-// https://www.pexels.com/search/weather/
-clouds_path = "https://www.pexels.com/photo/beautiful-clouds-cloudy-dramatic-209831/"
-
-icon_root = "http://openweathermap.org/img/wn/xxd@2x.png"
 
 
-let weatherDetails = [
+weatherInformation = [
     // "id" - unique weather scenario
     // "main" - type of weather group
     // "description" - der
@@ -77,4 +73,16 @@ let weatherDetails = [
         {id: 803, main: "Clouds", description: 'broken clouds: 51-84%',                 day_icon:'http://openweathermap.org/img/wn/04d@2x.png', night_icon:'http://openweathermap.org/img/wn/04n@2x.png', parallax_url: "https://images.unsplash.com/photo-1525920980995-f8a382bf42c5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8b3ZlcmNhc3QlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"},
         {id: 804, main: "Clouds", description: 'overcast clouds: 85-100%',              day_icon:'http://openweathermap.org/img/wn/04d@2x.png', night_icon:'http://openweathermap.org/img/wn/04n@2x.png', parallax_url: "https://images.unsplash.com/photo-1525920980995-f8a382bf42c5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8b3ZlcmNhc3QlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"},
 ]
+
+function getWeatherDetail(id){
+    console.log('looking for weather details with id:',id)
+    for(let i =0; i < weatherInformation.length; i++){
+        if(weatherInformation[i].id === id){
+            let weatherDetail = weatherInformation[i];
+            console.log(weatherDetail);
+            return weatherDetail;
+        }
+    }
+}
+
 
