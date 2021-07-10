@@ -348,7 +348,10 @@ function renderForecast(data){
         let weatherIcon = weatherDetail.day_icon;
         let humidity = weather.humidity;
 
+
+        let colEl = makeNewJqueryElement('div', 'col s12 m4 l3');
         let cardEl = makeNewJqueryElement('div', 'card horizontal', null, null, {name :'index', value: i});
+        colEl.append(cardEl);
         let cardImgDivEl = makeNewJqueryElement('div', 'card-image');
         cardEl.append(cardImgDivEl);
 
@@ -366,7 +369,7 @@ function renderForecast(data){
         cardContentEl.append(makeNewJqueryElement('p', 'forecast_temp', null , 'Day Max '+current_temp+"°​C"));
         cardContentEl.append(makeNewJqueryElement('p', 'forecast_wind', null , 'Wind '+weather.wind_speed.toString()+" m/s"));
         cardContentEl.append(makeNewJqueryElement('p', 'forecast_humidity', null, 'Humidity '+humidity+'%'));
-        weatherCards.append(cardEl);
+        weatherCards.append(colEl);
     }
 }
 
