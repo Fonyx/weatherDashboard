@@ -249,7 +249,7 @@ function renderCurrentWeather(){
     // let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
 
     let current_temp = Math.round(weather.temp, 1);
-    let current_time =  moment(weather.dt);
+    let current_time =  moment.unix(weather.dt);
     let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
 
     let sunUp = isSunUp(weather);
@@ -293,7 +293,8 @@ function renderCurrentWeather(){
     cardImageDivEL.append(cardImgEl)
 
 
-    cardImageDivEL.append(makeNewJqueryElement('span', 'card-title', 'hero-title', city.name+" : "+city.country))
+    cardImageDivEL.append(makeNewJqueryElement('span', 'card-title', 'hero-title', 
+    city.name+"  "+city.country+"  "+current_time_display))
 
     // || card-content section
     // create card-content section
@@ -305,7 +306,7 @@ function renderCurrentWeather(){
     cardContentEl.append(contentSpanEl);
 
     // add query time
-    contentSpanEl.append(makeNewJqueryElement('h4', 'hero_query_time', null, current_time_display));
+    // contentSpanEl.append(makeNewJqueryElement('h4', 'hero_query_time', null, current_time_display));
 
     // add the weather icon
     let weatherIconEl = makeNewJqueryElement('img', 'hero_icon', null); // need to set src separately
