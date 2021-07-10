@@ -245,8 +245,8 @@ function renderCurrentWeather(){
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
-    let dayIconUrl = "http://openweathermap.org/img/wn/01d@2x.png";
-    let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
+    // let dayIconUrl = "http://openweathermap.org/img/wn/01d@2x.png";
+    // let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
 
     let current_temp = Math.round(weather.temp, 1);
     let current_time =  moment(weather.dt);
@@ -259,7 +259,8 @@ function renderCurrentWeather(){
 
     // set icon to use
     let weatherIcon = sunUp ? weatherDetail.day_icon : weatherDetail.night_icon;
-    let sunIcon = sunUp ? dayIconUrl : nightIconUrl
+    let sunIcon = sunUp ? 'wb_sunny' : 'brightness_2'
+    let sunIconClass = sunUp ? 'yellow-text' : 'blue-text'
 
     // making this card
     /*
@@ -312,9 +313,7 @@ function renderCurrentWeather(){
     contentSpanEl.append(weatherIconEl);
 
     // add the sunrise/sunset icon
-    let sunriseSetIconEl = makeNewJqueryElement('img', 'hero_sun', null); 
-    sunriseSetIconEl.attr('src', sunIcon);
-    contentSpanEl.append(sunriseSetIconEl);
+    contentSpanEl.append(makeNewJqueryElement('i', 'large material-icons '+sunIconClass, 'hero_sun', sunIcon));
     
     // add temp, wind speed, humidity and uvi
     contentSpanEl.append(makeNewJqueryElement('p', 'hero_text', null, current_temp.toString()+"°​C"));
