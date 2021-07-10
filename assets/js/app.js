@@ -54,21 +54,10 @@ function addEventListenersToHistoryItems(){
 }
 
 function getWeatherIconStr(data){
-    let currentCelsius = data.current.temp - 273;
-    // if temp is above 15
-    if(currentCelsius >= 15){
-        // sunny 
-        if(currentCelsius <= 24){
-            return "wb_sunny";
-        } else if (currentCelsius <= 34){
-            return "beach_access";
-        } else if(currentCelsius <= 45){
-            return "whatshot";
-        }
-    // subzero
-    } else {
-        return "ac_unit";
-    }
+    let weatherInfo = getWeatherDetail(data.current.weather[0].id);
+    let queryTime = data.current.dt;
+
+
 }
 
 function getColorClassForUV(){
@@ -99,7 +88,7 @@ function makeGeocodeQueryString(searchString, CountryCode){
 
 function makeWeatherQueryString(city){
     let part = ['minutely', 'hourly', 'alerts']  // leaving current only
-    queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+"&exclude="+part+"&appid="+weatherAPI_key
+    queryString = weatherApiRoot+"?lat="+city.lat+"&lon="+city.lon+'&units=metric'+"&exclude="+part+"&appid="+weatherAPI_key
     return queryString;
 }
 
@@ -185,25 +174,15 @@ function removeEventListenersFromHistoryItems(){
 function renderCityWeatherObjects(cityObjects){
     historyList.text("");
     for(let i =0; i < cityObjects.length; i++){
+        console.log(cityObjects[i]);
         let city = cityObjects[i].city;
         let data = cityObjects[i].data;
 
         // dynamically assign icon class based on data
         let iconName = getWeatherIconStr(data);
 
-        // making this format
-        /*
-        <div class="card">
-            <div class="card-image">
-                <img src="">
-                <span class="card-title">Card Title</span>
-                <span class="card-title">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </span>
-            </div>
-        </div>
-        */
+        let currentTemp = Math.round(data.current.temp, 1);
+
 
         // create elements for a city li
         let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
@@ -215,7 +194,6 @@ function renderCityWeatherObjects(cityObjects){
         linkEl.attr('href', '#');
 
         // add the temperature to the link element
-        let currentTemp = Math.round(data.current.temp - 273, 1);
         linkEl.text(currentTemp+"°C ");
 
         // build structure
@@ -238,12 +216,28 @@ function renderCityWeatherObjects(cityObjects){
 }
 
 function renderCurrentWeather(){
+
+    // making this card
+    /*
+    <div class="card">
+        <div class="card-image">
+            <img src=>
+            <span class="card-title">Card Title</span>
+            <span class="card-title">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                    I am convenient because I require little markup to use effectively.</p>
+            </span>
+        </div>
+    </div>
+    */
+
+
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
     let forecast = storage[currentSelection].data.daily;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
 
-    let current_temp = Math.round(weather.temp - 273, 1);
+    let current_temp = Math.round(weather.temp, 1);
     let current_time =  moment(weather.dt);
     let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
 
