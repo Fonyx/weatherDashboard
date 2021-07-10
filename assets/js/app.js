@@ -193,7 +193,7 @@ function renderCityWeatherObjects(cityObjects){
 
         // create elements for a city li
         let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
-        let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country+": "+data.timezone);
+        let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country);
         let linkEl = makeNewJqueryElement('a', 'secondary-content');
         let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
 

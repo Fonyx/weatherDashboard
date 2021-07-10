@@ -85,3 +85,27 @@ function buildCountryAutocompleteOnLoad(countries_json){
 }
 // this is some complicated jquery - ref https://stackoverflow.com/questions/51220450/materializecss-is-there-any-event-when-an-item-is-selected-from-the-autocomplet
 
+
+// || SCREEN SIZE MODE CHANGER
+window.addEventListener('resize', logPixelSizeAndMaterializePrefix);
+
+function logPixelSizeAndMaterializePrefix(){
+    let currentWidth = window.innerWidth;
+
+    // console.log(`New Width: ${currentWidth}`);
+
+    if(currentWidth <= 600){
+        // console.log(`width: ${currentWidth} Materialize prefix: s`);
+        console.log(' Materialize prefix: s')
+    } else if (currentWidth > 600 && currentWidth <= 992){
+        // console.log(`width: ${currentWidth} Materialize prefix: m`)
+        console.log(' Materialize prefix: m')
+    } else if (currentWidth > 992 && currentWidth <= 1200){
+        // console.log(`width: ${currentWidth} Materialize prefix: l`)
+        console.log(' Materialize prefix: l')
+    } else {
+        // console.log(`width: ${currentWidth} Materialize prefix: xl`)
+        console.log(' Materialize prefix: xl')
+    }
+
+}
