@@ -53,10 +53,28 @@ function addEventListenersToHistoryItems(){
     }
 }
 
-function getWeatherIconStr(data){
-    let weatherInfo = getWeatherDetail(data.current.weather[0].id);
+function isSunUp(data){
     let queryTime = data.current.dt;
+    let sunrise = data.current.sunrise;
+    let sunset = data.current.sunset;
 
+    // if the sun is up there
+    if(queryTime >sunrise && queryTime<sunset){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getWeatherIconStr(data){
+
+    let weatherInfo = getWeatherDetail(data.current.weather[0].id);
+
+    if(isSunUp(data)){
+        return weatherInfo.day_icon;
+    } else {
+        return weatherInfo.night_icon;
+    }
 
 }
 
@@ -179,26 +197,26 @@ function renderCityWeatherObjects(cityObjects){
         let data = cityObjects[i].data;
 
         // dynamically assign icon class based on data
-        let iconName = getWeatherIconStr(data);
+        let iconUrl = getWeatherIconStr(data);
 
         let currentTemp = Math.round(data.current.temp, 1);
 
 
         // create elements for a city li
         let listEl = makeNewJqueryElement('li', "collection", null, null, {name: 'index', value: i})
-        let divEl = makeNewJqueryElement('div', 'collection-item', null, city.name+": "+city.country);
-        let linkEl = makeNewJqueryElement('a', 'secondary-content');
-        let iconEl = makeNewJqueryElement('i', 'material-icons', null, iconName);
+        let divEl = makeNewJqueryElement('div', 'collection-item');
+        let textEL = makeNewJqueryElement('p', 'history_card_text', null, city.name+": "+city.country+": "+currentTemp+"°C ");
+        let iconEl = makeNewJqueryElement('img', 'history_card_icon', null);
 
         // specifically give the a link an empty href since helper function can't give an href function
-        linkEl.attr('href', '#');
+        iconEl.attr('src', iconUrl);
 
         // add the temperature to the link element
-        linkEl.text(currentTemp+"°C ");
 
         // build structure
-        linkEl.append(iconEl);
-        divEl.append(linkEl);
+        divEl.append(textEL);
+        divEl.append(iconEl);
+        // divEl.append(tempEl);
         listEl.append(divEl)
 
         // append to section

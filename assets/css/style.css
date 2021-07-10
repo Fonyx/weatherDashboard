@@ -39,7 +39,7 @@ a.secondary-content{
     background-color: var(--blue);
 }
 
-// override width of container
+/* override width of container */
 .container {
     margin: 0 auto;
     max-width: 1280px;
@@ -55,6 +55,13 @@ a.secondary-content{
       width: 90%;
     }
   }
+/* make icons smaller for history icons */
+.history_card_icon {
+    width: 14%;
+}
+.history_card_text{
+    float: left;
+}
 
 nav{
     background-color: var(--lighter-blue);
