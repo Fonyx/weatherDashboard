@@ -19,18 +19,23 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <!-- add custom styles -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- load a favicon -->
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/originals/77/0b/80/770b805d5c99c7931366c2e84e88f251.png"/>
 </head>
 <body onload="RenderStorage();">
 
     <header>
         <nav>
-            <div class="nav-wrapper">
-                <a href="#" id="brand_title" class="brand-logo center">Weather Dashboard</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li>
-                        <a href="https://home.openweathermap.org/">WEATHER API</a>
-                    </li>
-                </ul>
+            <div class="nav-wrapper valign-wrapper">
+                <a href="#" id="brand_title" class="brand-logo center">
+                    Weather Dashboard
+                </a>
+                <a href="#" class="valign-wrapper">
+                    <img class="" src="https://i.pinimg.com/originals/77/0b/80/770b805d5c99c7931366c2e84e88f251.png" id="nav-icon">
+                </a>
+                <a id="nav-mobile" class="hide-on-med-and-down" href="https://home.openweathermap.org/">
+                    WEATHER API
+                </a>
             </div>
         </nav>
     </header>

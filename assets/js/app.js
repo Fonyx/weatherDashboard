@@ -246,8 +246,6 @@ function renderCurrentWeather(){
     let weather = storage[currentSelection].data.current;
     let data = storage[currentSelection].data;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
-    // let dayIconUrl = "http://openweathermap.org/img/wn/01d@2x.png";
-    // let nightIconUrl = "http://openweathermap.org/img/wn/01n@2x.png";
 
     let current_temp = Math.round(weather.temp, 1);
     let current_time =  moment.unix(weather.dt);

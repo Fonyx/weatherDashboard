@@ -69,11 +69,9 @@ a.secondary-content{
     float: left;
 }
 
-/* #hero_card_text2{
-    position: relative;
-    right: 0%;
-    top:0%;
-} */
+#nav-icon{
+    width: 3rem;
+}
 
 nav{
     background-color: var(--lighter-blue);
