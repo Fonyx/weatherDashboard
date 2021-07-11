@@ -50,7 +50,7 @@
         </div> -->
         <!-- <div class="container"> -->
             <div class="row">
-                <div class="col s12 m12 l2">
+                <div class="col s12 m12 l4 xl3">
                     <section class="section no-pad-bot">
                         <form autocomplete="off">
                             <div class="row">
@@ -74,13 +74,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s4 offset-s2 m5 offset-m1">
+                                <div class="col s4 offset-s2 m5 offset-m1 l6">
                                     <div class="center-align">
                                         <button id="search-button" 
                                         class="btn-large waves-light" type="submit" name="submit" >Search</button>
                                     </div>
                                 </div>
-                                <div class="col s4 m5">
+                                <div class="col s4 m5 l6">
                                     <div class="center-align">
                                         <button id="reset-button" 
                                         class="btn-large waves-light" type="submit" name="submit" >Reset</button>
@@ -93,7 +93,8 @@
                     <section id="history_list">
                     </section>
                 </div>
-                <div class="col s12 m12 l6">
+                <div class="col s12 m12 l8 xl9">
+                    <h3 class="center-align blue-text">CURRENTLY</h3>
                     <div id="weather_hero">
                         <div class="card">
                             <div class="card-image">
@@ -133,37 +134,129 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col s12 m12 l4">
                     <div class="center-align blue-text lighten-4">
-                        <h3>FORECAST</h3>
+                        <h3>5 DAY FORECAST</h3>
                     </div>
                     <div id="weather_cards">
-                        <div class="card horizontal">
-                            <div class="card-image">
-                              <img src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                        <div class="row">
+                            <div class="col xl2 offset-xl1 l12 m10 offset-m1 s10 offset-s1">                      
+                            <div class="card">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">
+                                            <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
+                                            <p>Tuesday - July 11th</p>
+                                            <i class="material-icons right">more_vert</i></span>
+                                        <p>13°​C (3°​C)</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                            <p>Tuesday - July 11th</p>
+                                            <i class="material-icons right">close</i></span>
+                                        <p>Wind 2.35 m/s</p>
+                                        <p>Humidity 13%</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-content">
-                                <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
-                                <p>Tomorrow - July 10th</p>
-                                <p>13°​C (3°​C)</p>
-                                <p>Wind 2.35 m/s</p>
-                                <p>Humidity 13%</p>
+                            <div class="col xl2 l12 m10 offset-m1 s10 offset-s1">
+                                <div class="card">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">
+                                            <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
+                                            <p>Wednesday - July 12th</p>
+                                            <i class="material-icons right">more_vert</i></span>
+                                        <p>13°​C (3°​C)</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                            <p>Wednesday - July 12th</p>
+                                            <i class="material-icons right">close</i></span>
+                                        <p>Wind 2.35 m/s</p>
+                                        <p>Humidity 13%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col xl2 l12 m10 offset-m1 s10 offset-s1">
+                                <div class="card">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">
+                                            <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
+                                            <p>Thursday - July 13th</p>
+                                            <i class="material-icons right">more_vert</i></span>
+                                        <p>13°​C (3°​C)</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                            <p>Thursday - July 13th</p>
+                                            <i class="material-icons right">close</i></span>
+                                        <p>Wind 2.35 m/s</p>
+                                        <p>Humidity 13%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col xl2 l12 m10 offset-m1 s10 offset-s1">
+                                <div class="card">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">
+                                            <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
+                                            <p>Friday - July 13th</p>
+                                            <i class="material-icons right">more_vert</i></span>
+                                        <p>13°​C (3°​C)</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                            <p>Friday - July 13th</p>
+                                            <i class="material-icons right">close</i></span>
+                                        <p>Wind 2.35 m/s</p>
+                                        <p>Humidity 13%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col xl2 l12 m10 offset-m1 s10 offset-s1">
+                                <div class="card">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">
+                                            <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
+                                            <p>Saturday - July 13th</p>
+                                            <i class="material-icons right">more_vert</i></span>
+                                        <p>13°​C (3°​C)</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                            <p>Saturday - July 13th</p>
+                                            <i class="material-icons right">close</i></span>
+                                        <p>Wind 2.35 m/s</p>
+                                        <p>Humidity 13%</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+            
                         <div class="card horizontal">
                             <div class="card-image">
                               <img src="https://images.unsplash.com/photo-1556485689-33e55ab56127?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZHJpenpsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80">
                             </div>
-    
-                              <div class="card-content">
+                            <div class="card-content">
                                 <img class="forecast_icon" src="https://openweathermap.org/img/wn/11d@2x.png">
                                 <p>Tuesday - July 11th</p>
                                 <p>13°​C (3°​C)</p>
                                 <p>Wind 2.35 m/s</p>
                                 <p>Humidity 13%</p>
-                              </div>
-    
+                            </div>
                         </div>
                         <div class="card horizontal">
                             <div class="card-image">
