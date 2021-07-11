@@ -28,7 +28,7 @@
         <nav>
             <div class="nav-wrapper valign-wrapper">
                 <a href="#" id="brand_title" class="brand-logo center">
-                    Weather Dashboard
+                    Weather <span class="hide-on-small-and-down">Dashboard</span>
                 </a>
                 <a href="#" class="valign-wrapper">
                     <img class="" src="https://i.pinimg.com/originals/77/0b/80/770b805d5c99c7931366c2e84e88f251.png" id="nav-icon">
@@ -48,10 +48,9 @@
                 alt="Unsplashed background img 1" style="transform: translate3d(-50%, 397.495px, 0px); opacity: 1;">
             </div>
         </div> -->
-        
-        <div class="container">
+        <!-- <div class="container"> -->
             <div class="row">
-                <div class="col s12 m12 l4">
+                <div class="col s12 m12 l2">
                     <section class="section no-pad-bot">
                         <form autocomplete="off">
                             <div class="row">
@@ -91,81 +90,11 @@
                         </form>
                     </section>
                     <section class="divider"></section>
-                    <section class="" id="history_list">
+                    <section id="history_list">
                     </section>
                 </div>
-                
-                <div class="col s12 m12 l8">
-                    <div class="row" id="weather_hero">
-                        <!-- <div class="card">
-                            <div class="card-image">
-                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-                                <span class="card-title">ADD A CITY TO SEE WEATHER</span>
-                            </div>
-                        </div> -->
-                        <!-- <div class="card">
-                            <div class="card-image">
-                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-                                <span class="card-title">City Country</span>
-                            </div>
-                            <div class="card-content">
-                                
-                                <div class="row">
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>Query time</p>
-                                    </div>
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>Sunrise/Sunset Icon</p>
-                                    </div>
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>Temp+°C</p>
-                                    </div>
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>Wind Speed</p>
-                                    </div>
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>Humidity</p>
-                                    </div>
-                                    <div class="col s12 m12 l2 align-center">
-                                        <p>UV Index</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <div class="card">
-                            <div class="card-image">
-                                <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-                                <div class="card-title" id="hero_card_text">
-                                    <div class="row">
-                                        <div class="col">
-                                            Canberra AU 
-                                        </div>
-                                        <div class="col">
-                                            <img class="hero_icon" src="http://openweathermap.org/img/wn/04d@2x.png">
-                                        </div>
-                                        <div class="col">
-                                            <i id="hreo_sun" class="large material-icons blue-text">brightness_2</i>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            July 10th 2021, 6:28:50 pm
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            Temp 8°​C (3°​C) Wind 2.57m/s Humidity 78%
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="hero_uv btn black-text red lighten-2">UVI 0%</p>
-                                        </div>
-                                    </div>
-                                </div>  
-                            </div>
-                        </div>
-
+                <div class="col s12 m12 l6">
+                    <div id="weather_hero">
                         <div class="card">
                             <div class="card-image">
                                 <img src="https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
@@ -203,16 +132,124 @@
                                 </div>  
                             </div>
                         </div>
-
                     </div>
-                    <section class="divider"></section>
-                    <div class="row center-align">
+                </div>
+                <div class="col s12 m12 l4">
+                    <div class="center-align">
                         <h3>FORECAST</h3>
                     </div>
-                    <div class="row" id="weather_cards">
+                    <div id="weather_cards">
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://www.messengernewspapers.co.uk/resources/images/10035394.jpg?display=1&htype=0&type=responsive-gallery">
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://images.unsplash.com/photo-1556485689-33e55ab56127?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZHJpenpsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80">
+                            </div>
+    
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+    
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://www.rd.com/wp-content/uploads/2016/09/03-not-weird-facts-rain-Mr_Twister.jpg">
+                            </div>
+    
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+                        </div>
                         <div class="card horizontal">
                             <div class="card-image">
                               <img src="https://nypost.com/wp-content/uploads/sites/2/2020/12/111518_NYC_November_snow_stormPM_3.jpg?quality=80&strip=all&w=1024">
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://www.zocalopublicsquare.org/wp-content/uploads/2010/05/mist.jpg">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://live-production.wcms.abc-cdn.net.au/f5f7516de6e8d3888ebf0b68e899438a?impolicy=wcms_crop_resize&cropH=1357&cropW=2042&xPos=0&yPos=0&width=862&height=575">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://images.thewest.com.au/publication/B881858048Z/1619579905416_GPT38FSRT.1-2.jpg?imwidth=810&impolicy=wan_v3">
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://media-cldnry.s-nbcnews.com/image/upload/newscms/2020_04/3198636/200123-dustcloud-australia-mc-1127.JPG">
+                            </div>
+    
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+    
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://content.api.news/v3/images/bin/4c5b045a7784a27ee39860442b54b94a">
+                            </div>
+    
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://t4.ftcdn.net/jpg/03/56/91/03/360_F_356910373_lP50O72Jl7S9T4bdbVEmuJZMQWWs0z5b.jpg">
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://media-cldnry.s-nbcnews.com/image/upload/newscms/2020_04/3198636/200123-dustcloud-australia-mc-1127.JPG">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://d3nuqriibqh3vw.cloudfront.net/images/inquirer.jpg">
+                            </div>
+
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://www.clubmarine.com.au/articleimages/31-3-Watch-the-weather/$FILE/Watch-the-weather-image1-hero-sm.jpg">
                             </div>
                             <div class="card-content">
                                 <p>I am a very simple card. I am good at containing small bits of information.</p>
@@ -230,18 +267,27 @@
                         </div>
                         <div class="card horizontal">
                             <div class="card-image">
-                              <img src="https://www.bestservices.co.uk/wp-content/uploads/2017/11/shutterstock_281493026-2-2560x850.jpg">
+                              <img src="https://bitcoinist.com/wp-content/uploads/2019/07/10th-July-8.jpg">
                             </div>
 
                               <div class="card-content">
                                 <p>I am a very simple card. I am good at containing small bits of information.</p>
                               </div>
+                        </div>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                              <img src="https://images.unsplash.com/photo-1525920980995-f8a382bf42c5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8b3ZlcmNhc3QlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80">
+                            </div>
 
+                              <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                              </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
+
     </main>
     
     <footer class="page-footer">
