@@ -54,14 +54,31 @@ function addEventListenersToHistoryItems(){
 }
 
 function isSunUp(current){
+    let currentInstant = moment();
     let queryTime = current.dt;
     let sunrise = current.sunrise;
     let sunset = current.sunset;
 
+    console.log(currentInstant.unix());
+    console.log(queryTime);
+    console.log(sunrise);
+    console.log(sunset);
+
+    let queryTimeInstant = moment.unix(queryTime);
+    let sunriseInstant = moment.unix(sunrise);
+    let sunsetInstant = moment.unix(sunset);
+
+    console.log('My Current Instant',currentInstant.format('MMMM Do YYYY h:mm:ss a'));
+    console.log('Server Current Instant',queryTimeInstant.format('MMMM Do YYYY h:mm:ss a'));
+    console.log('Server Sunrise Instant',sunriseInstant.format('MMMM Do YYYY h:mm:ss a'));
+    console.log('Server Sunset Instant',sunsetInstant.format('MMMM Do YYYY h:mm:ss a'));
+
     // if the sun is up there
     if(queryTime >sunrise && queryTime<sunset){
+        console.log('Sun is up');
         return true;
     } else {
+        console.log('Sun is down');
         return false;
     }
 }
