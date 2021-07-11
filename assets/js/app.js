@@ -413,14 +413,14 @@ function renderForecast(data){
                 let cardContentDiv = makeNewJqueryElement('div', 'card-content');
                     //<span class="card-title activator grey-text text-darken-4">
                     let span1 = makeNewJqueryElement('span', 'card-title activator grey-text text-darken-4');
-                        //<img class="forecast_icon" src=weatherIcon>
-                        let img1 = makeNewJqueryElement('img', 'forecast_icon');
-                        img1.attr('src', weatherIcon);
                         //<p>forecastDay</p>
                         let p1 = makeNewJqueryElement('p', 'forecast_content_text', null, forecastDay);
+                        //<img class="forecast_icon" src=weatherIcon>
+                        let img1 = makeNewJqueryElement('img', 'card-title forecast_icon');
+                        img1.attr('src', weatherIcon);
                         //<i class="material-icons right">more_vert</i>
                         let icon1 = makeNewJqueryElement('i', 'material-icons right', null, 'more_vert')
-                    span1.append(img1, p1, icon1)
+                    span1.append(p1, img1, icon1)
                     //</span>
                     //<p>currentTemp (currentFeelsLike)</p>
                     let p2 = makeNewJqueryElement('p', 'forecast_content_text', null, currentTemp);

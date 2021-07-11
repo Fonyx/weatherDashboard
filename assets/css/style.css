@@ -73,9 +73,9 @@ a.secondary-content{
     float: left;
 }
 
-/* .card{
-    max-width: 1000px;
-} */
+.forecast-icon{
+    width: 30%;
+}
 
 #nav-icon{
     width: 3rem;
