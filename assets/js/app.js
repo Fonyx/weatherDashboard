@@ -377,40 +377,77 @@ function renderForecast(data){
     // reset cards
     weatherCards.text("");
 
-    for(let i=0; i < 5; i++){
+    for(let i=1; i < 6; i++){
         let weather = data.daily[i];
+        // the first column gets a materialize offset for xl size of 1, the others don't
+        let offsetClass = (i===1) ? "col xl2 offset-xl1 l12 m10 offset-m1 s10 offset-s1" : "col xl2 l12 m10 offset-m1 s10 offset-s1";
 
-        let current_temp = Math.round(weather.temp.day, 1)+"°​C";
-        let current_time =  moment.unix(weather.dt);
-        let current_time_display = current_time.format('MMMM Do YYYY');
+        let currentTemp = Math.round(weather.temp.day)+"°​C";
+        let currentTime =  moment.unix(weather.dt);
+        // format sunday 11th June
+        // let forecastDay = currentTime.format('dddd MMMM Do');
+        //format Sunday
+        let forecastDay = currentTime.format('dddd');
         // lookup weather info for this id.
         let weatherDetail = getWeatherDetail(weather.weather[0].id);
         let weatherIcon = weatherDetail.day_icon;
+        let backgroundImg = weatherDetail.parallax_url;
         let windSpeed = weather.wind_speed.toString()+" m/s"
         let humidity = weather.humidity+'%';
 
 
-        let colEl = makeNewJqueryElement('div', 'col s12 m4 l3');
-        let cardEl = makeNewJqueryElement('div', 'card horizontal', null, null, {name :'index', value: i});
-        colEl.append(cardEl);
-        let cardImgDivEl = makeNewJqueryElement('div', 'card-image');
-        cardEl.append(cardImgDivEl);
+        //making this card
 
-        let cardImgEl = makeNewJqueryElement('img', 'forecast_image');
-        cardImgEl.attr('src', weatherDetail.parallax_url)
-        cardImgDivEl.append(cardImgEl);
+        //<div class="col xl2 offset-xl1 l12 m10 offset-m1 s10 offset-s1">  
+        let containerEl = makeNewJqueryElement('div', offsetClass);              
+            //<div class="card">
+            let cardEl = makeNewJqueryElement('div', 'card')
+                //<div class="card-image waves-effect waves-block waves-light">
+                let cardImgDiv = makeNewJqueryElement('div', 'card-image waves-effect waves-block waves-light');
+                    //<img class="activator" src=backgroundImg>
+                    let cardImgEl = makeNewJqueryElement('img', 'activator');
+                    cardImgEl.attr('src', backgroundImg);
+                cardImgDiv.append(cardImgEl);
+                //</div>
+                //<div class="card-content">
+                let cardContentDiv = makeNewJqueryElement('div', 'card-content');
+                    //<span class="card-title activator grey-text text-darken-4">
+                    let span1 = makeNewJqueryElement('span', 'card-title activator grey-text text-darken-4');
+                        //<img class="forecast_icon" src=weatherIcon>
+                        let img1 = makeNewJqueryElement('img', 'forecast_icon');
+                        img1.attr('src', weatherIcon);
+                        //<p>forecastDay</p>
+                        let p1 = makeNewJqueryElement('p', 'forecast_content_text', null, forecastDay);
+                        //<i class="material-icons right">more_vert</i>
+                        let icon1 = makeNewJqueryElement('i', 'material-icons right', null, 'more_vert')
+                    span1.append(img1, p1, icon1)
+                    //</span>
+                    //<p>currentTemp (currentFeelsLike)</p>
+                    let p2 = makeNewJqueryElement('p', 'forecast_content_text', null, currentTemp);
+                cardContentDiv.append(span1, p2);
+                //</div>
+                //<div class="card-reveal">
+                    let cardRevealDiv = makeNewJqueryElement('div', 'card-reveal');
+                        //<span class="card-title grey-text text-darken-4">
+                        let span2 = makeNewJqueryElement('span', 'card-title grey-text text-darken-4');
+                            //<i class="material-icons right">close</i>
+                            let icon2 = makeNewJqueryElement('i', 'material-icons right', null, 'close');
+                        span2.append(icon2);
+                        //</span>
+                        //<p>Wind windSpeed</p>
+                        let p4 = makeNewJqueryElement('p', 'forecast_reveal_text', null, 'Wind '+windSpeed);
+                        //<p>Humidity humidity</p>
+                        let p5 = makeNewJqueryElement('p', 'forecast_reveal_text', null, 'Humidity '+humidity)
+                    cardRevealDiv.append(span2, p4, p5);
+                //</div>
+            cardEl.append(cardImgDiv, cardContentDiv, cardRevealDiv);
+            //</div>
+        containerEl.append(cardEl);
+        //</div>
 
-        let cardContentEl = makeNewJqueryElement('div', 'card-content');
-        cardEl.append(cardContentEl);
+        // final append
+        weatherCards.append(containerEl);
 
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_date',null, current_time_display));
-        let imgEl = makeNewJqueryElement('img', 'forecast_icon');
-        imgEl.attr('src', weatherIcon);
-        cardContentEl.append(imgEl);
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_temp', null , 'Day Max '+current_temp));
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_wind', null , 'Wind '+windSpeed));
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_humidity', null, 'Humidity '+humidity));
-        weatherCards.append(colEl);
     }
 }
 
