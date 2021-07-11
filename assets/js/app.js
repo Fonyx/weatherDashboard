@@ -86,16 +86,18 @@ function getWeatherIconStr(current){
 
 }
 
-function getColorClassForUV(uvi){
+function getLightenClassForUv(uvi){
     // uvi ranges from 0 - 1
-    // expand range to 0-5 to fit the materialize lighten scheme
-    let scaledNumber = Math.round(5*uvi);
-    let frontNumber = parseInt(scaledNumber, 10).toString();
-    // let frontNumber = integerUvi.toString().charAt(0);
-
+    // cut range to 0-5 from 0-10 to fit the materialize lighten scheme
+    let scaledNumber = parseInt(Math.round(uvi/2));
     // invert the scale
-    let inverseResult = 5 - parseInt(frontNumber, 10);
-    return "red lighten-"+inverseResult;
+    let inverseResult = 5 - scaledNumber;
+    if(inverseResult > 0){
+        return "lighten-"+inverseResult;
+    } else {
+        return ""
+    }
+    
 }
 
 function RenderStorage(){
@@ -263,7 +265,7 @@ function renderCurrentWeather(){
     let sunIconClass = sunUp ? 'yellow-text' : 'blue-text'
 
     // get uv index color
-    let uvIndexClassColor = getColorClassForUV(weather.uvi);
+    let uvIndexClassColor = getLightenClassForUv(weather.uvi);
 
     // get time variables
     let currentTime =  moment.unix(weather.dt);
@@ -275,7 +277,7 @@ function renderCurrentWeather(){
     let currentFeelsLike = Math.round(weather.feels_like, 1).toString()+"°​C";
     let windSpeed = weather.wind_speed.toString()+"m/s";
     let currentHumidity = weather.humidity.toString()+"%";
-    let currentUVI = parseInt(Math.round(100*weather.uvi)).toString()+"%";
+    let currentUVI = weather.uvi;
 
     // extra details?
 
@@ -343,7 +345,7 @@ function renderCurrentWeather(){
                 //<div class="col">
                 let div9 = makeNewJqueryElement('div', 'col');
                     //<p class="hero_uv btn black-text "+uvIndexClassColor>
-                    let p1 = makeNewJqueryElement('p', 'hero_uv btn black-text '+uvIndexClassColor, null)
+                    let p1 = makeNewJqueryElement('p', 'hero_uv btn black-text red '+uvIndexClassColor, null)
                         //<span class="hide-on-med-and-down">UVI</span>currentUVI
                         // let span2 = makeNewJqueryElement('span', 'hide-on-med-and-down', null, 'UVI');
                         let p2 = makeNewJqueryElement('p', null, null, 'Uv '+currentUVI);
