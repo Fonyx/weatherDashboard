@@ -54,24 +54,15 @@ function addEventListenersToHistoryItems(){
 }
 
 function isSunUp(current){
-    let currentInstant = moment();
     let queryTime = current.dt;
     let sunrise = current.sunrise;
     let sunset = current.sunset;
 
-    console.log(currentInstant.unix());
-    console.log(queryTime);
-    console.log(sunrise);
-    console.log(sunset);
-
-    let queryTimeInstant = moment.unix(queryTime);
-    let sunriseInstant = moment.unix(sunrise);
-    let sunsetInstant = moment.unix(sunset);
-
-    console.log('My Current Instant',currentInstant.format('MMMM Do YYYY h:mm:ss a'));
-    console.log('Server Current Instant',queryTimeInstant.format('MMMM Do YYYY h:mm:ss a'));
-    console.log('Server Sunrise Instant',sunriseInstant.format('MMMM Do YYYY h:mm:ss a'));
-    console.log('Server Sunset Instant',sunsetInstant.format('MMMM Do YYYY h:mm:ss a'));
+    // let currentInstant = moment();
+    // console.log('My Current Instant',currentInstant.format('MMMM Do YYYY h:mm:ss a'));
+    // console.log('Server Current Instant',queryTimeInstant.format('MMMM Do YYYY h:mm:ss a'));
+    // console.log('Server Sunrise Instant',sunriseInstant.format('MMMM Do YYYY h:mm:ss a'));
+    // console.log('Server Sunset Instant',sunsetInstant.format('MMMM Do YYYY h:mm:ss a'));
 
     // if the sun is up there
     if(queryTime >sunrise && queryTime<sunset){
@@ -386,14 +377,15 @@ function renderForecast(data){
 
     for(let i=0; i < 5; i++){
         let weather = data.daily[i];
-        console.log(weather);
-        let current_temp = Math.round(weather.temp.day, 1);
+
+        let current_temp = Math.round(weather.temp.day, 1)+"°​C";
         let current_time =  moment.unix(weather.dt);
         let current_time_display = current_time.format('MMMM Do YYYY');
         // lookup weather info for this id.
         let weatherDetail = getWeatherDetail(weather.weather[0].id);
         let weatherIcon = weatherDetail.day_icon;
-        let humidity = weather.humidity;
+        let windSpeed = weather.wind_speed.toString()+" m/s"
+        let humidity = weather.humidity+'%';
 
 
         let colEl = makeNewJqueryElement('div', 'col s12 m4 l3');
@@ -413,13 +405,12 @@ function renderForecast(data){
         let imgEl = makeNewJqueryElement('img', 'forecast_icon');
         imgEl.attr('src', weatherIcon);
         cardContentEl.append(imgEl);
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_temp', null , 'Day Max '+current_temp+"°​C"));
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_wind', null , 'Wind '+weather.wind_speed.toString()+" m/s"));
-        cardContentEl.append(makeNewJqueryElement('p', 'forecast_humidity', null, 'Humidity '+humidity+'%'));
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_temp', null , 'Day Max '+current_temp));
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_wind', null , 'Wind '+windSpeed));
+        cardContentEl.append(makeNewJqueryElement('p', 'forecast_humidity', null, 'Humidity '+humidity));
         weatherCards.append(colEl);
     }
 }
-
 
 function resetAllHistoryCardColors(){
     let historyCards = $('#history_list').find('div');

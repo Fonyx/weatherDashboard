@@ -45,6 +45,10 @@ a.secondary-content{
     background-color: var(--blue);
 }
 
+.forecast_icon{
+    width: 4rem;
+}
+
 /* override width of container */
 .container {
     margin: 0 auto;
