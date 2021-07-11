@@ -265,19 +265,39 @@ function renderCurrentWeather(){
     /*
     <div class="card">
         <div class="card-image">
-            <img src=weatherDetail.parallax_url>
-            <span class="card-title">City Country</span>
-        </div>
-        <div class="card-content">
-            <span class="card-content">
-                <p>Query time</p>
-                <p>Weather Icon</p>
-                <p>Sunrise/Sunset Icon</p>
-                <p>Temp+°C</p>
-                <p>Wind Speed</p>
-                <p>Humidity</p>
-                <p>UV Index</p>
-            </span>
+            <img src=weather.parallax>
+            <div class="card-title" id="hero_card_text">
+                <div class="row">
+                    <div class="col">
+                        Canberra AU 
+                    </div>
+                    <div class="col">
+                        <img class="hero_icon" src="http://openweathermap.org/img/wn/04d@2x.png">
+                    </div>
+                    <div class="col">
+                        <i id="hero_sun" class="large material-icons blue-text">brightness_2</i>
+                    </div>
+                </div>
+                <br>
+                <br>
+            </div>
+            <div class="card-content valign-wrapper">
+                <div class="col">
+                    <span class="hide-on-med-and-down">July 10th 2021,</span>6:28:50 pm
+                </div>
+                <div class="col">
+                    Temp 8°​C (3°​C)
+                </div>
+                <div class="col">
+                    Wind 2.57m/s
+                </div>
+                <div class="col">
+                    Humidity: 78%
+                </div>
+                <div class="col">
+                    <p class="hero_uv btn black-text red lighten-3"><span class="hide-on-med-and-down">UVI</span>0%</p>
+                </div>
+            </div>  
         </div>
     </div>
     */

@@ -23,12 +23,6 @@ main {
     cursor: default;
 }
 
-#hero_card_text{
-    background-color: black;
-    border-radius: 25px;
-    opacity: 65%;
-}
-
 a.secondary-content{
     cursor: default;
 }
