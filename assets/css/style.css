@@ -37,6 +37,10 @@ a.secondary-content{
     color: var(--darker-blue);
 }
 
+.collection{
+    max-height: 6rem;
+}
+
 .collection .collection-item{
     background-color: var(--lighter-blue);
 }

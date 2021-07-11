@@ -365,8 +365,12 @@ function renderCurrentWeather(){
     // reset hero to empty
     weatherHero.text("");
 
+    // add header
+    //<h3 class="center-align blue-text">CURRENTLY</h3>
+    let headerEl = makeNewJqueryElement('h3', 'center-align blue-text', null, 'CURRENTLY');
+
     // append new hero card
-    weatherHero.append(cardDiv);
+    weatherHero.append(headerEl, cardDiv);
 
     // render forecast cards below
     renderForecast(data);
@@ -377,6 +381,12 @@ function renderForecast(data){
     // reset cards
     weatherCards.text("");
 
+    // add header
+    //<h3 class="center-align blue-text">CURRENTLY</h3>
+    let headerEl = makeNewJqueryElement('h3', 'center-align blue-text lighten-4', null, '5 DAY FORECAST');
+    weatherCards.append(headerEl);
+
+    // make and attach cards, ignoring index 0 as that is today
     for(let i=1; i < 6; i++){
         let weather = data.daily[i];
         // the first column gets a materialize offset for xl size of 1, the others don't
