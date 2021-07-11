@@ -242,109 +242,121 @@ function renderCityWeatherObjects(cityObjects){
 }
 
 function renderCurrentWeather(){
+    // get data variables
     let city = storage[currentSelection].city;
     let weather = storage[currentSelection].data.current;
     let data = storage[currentSelection].data;
     let weatherDetail = getWeatherDetail(weather.weather[0].id);
 
-    let current_temp = Math.round(weather.temp, 1);
-    let current_time =  moment.unix(weather.dt);
-    let current_time_display = current_time.format('MMMM Do YYYY, h:mm:ss a');
-
+    // get states
     let sunUp = isSunUp(weather);
-
-    // get uv index color
-    let uv_index_color = getColorClassForUV(weather.uvi);
-
-    // set icon to use
     let weatherIcon = sunUp ? weatherDetail.day_icon : weatherDetail.night_icon;
     let sunIcon = sunUp ? 'wb_sunny' : 'brightness_2'
     let sunIconClass = sunUp ? 'yellow-text' : 'blue-text'
 
+    // get uv index color
+    let uvIndexClassColor = getColorClassForUV(weather.uvi);
+
+    // get time variables
+    let currentTime =  moment.unix(weather.dt);
+    let currentDateDisplay = currentTime.format('MMMM Do YYYY');
+    let currentTimeDisplay = currentTime.format('h:mm:ss a');
+
+    // get weather variables and formats
+    let current_temp = Math.round(weather.temp, 1).toString()+"°​C";
+    let currentFeelsLike = Math.round(weather.feels_like, 1).toString()+"°​C";
+    let windSpeed = weather.wind_speed.toString()+"m/s";
+    let currentHumidity = weather.humidity.toString()+"%";
+    let currentUVI = parseInt(Math.round(100*weather.uvi)).toString()+"%";
+
+    // extra details?
+
     // making this card
-    /*
-    <div class="card">
-        <div class="card-image">
-            <img src=weather.parallax>
-            <div class="card-title" id="hero_card_text">
-                <div class="row">
-                    <div class="col">
-                        Canberra AU 
-                    </div>
-                    <div class="col">
-                        <img class="hero_icon" src="http://openweathermap.org/img/wn/04d@2x.png">
-                    </div>
-                    <div class="col">
-                        <i id="hero_sun" class="large material-icons blue-text">brightness_2</i>
-                    </div>
-                </div>
-                <br>
-                <br>
-            </div>
-            <div class="card-content valign-wrapper">
-                <div class="col">
-                    <span class="hide-on-med-and-down">July 10th 2021,</span>6:28:50 pm
-                </div>
-                <div class="col">
-                    Temp 8°​C (3°​C)
-                </div>
-                <div class="col">
-                    Wind 2.57m/s
-                </div>
-                <div class="col">
-                    Humidity: 78%
-                </div>
-                <div class="col">
-                    <p class="hero_uv btn black-text red lighten-3"><span class="hide-on-med-and-down">UVI</span>0%</p>
-                </div>
-            </div>  
-        </div>
-    </div>
-    */
-    // card title section
-    let cardEl = makeNewJqueryElement('div', 'card', 'hero-card');
-    let cardImageDivEL = makeNewJqueryElement('div', 'card-image');
-    cardEl.append(cardImageDivEL);
-
-    // make the image
-    let cardImgEl = makeNewJqueryElement('img', 'hero-image'); 
-    cardImgEl.attr('src', weatherDetail.parallax_url)
-    cardImageDivEL.append(cardImgEl)
-
-
-    cardImageDivEL.append(makeNewJqueryElement('span', 'card-title', 'hero-title', 
-    city.name+"  "+city.country+"  "+current_time_display))
-
-    // || card-content section
-    // create card-content section
-    let cardContentEl = makeNewJqueryElement('div', 'card-content');
-    cardEl.append(cardContentEl);
-
-    // create content span
-    let contentSpanEl = makeNewJqueryElement('span', 'card-content');
-    cardContentEl.append(contentSpanEl);
-
-    // add query time
-    // contentSpanEl.append(makeNewJqueryElement('h4', 'hero_query_time', null, current_time_display));
-
-    // add the weather icon
-    let weatherIconEl = makeNewJqueryElement('img', 'hero_icon', null); // need to set src separately
-    weatherIconEl.attr('src', weatherIcon);
-    contentSpanEl.append(weatherIconEl);
-
-    // add the sunrise/sunset icon
-    contentSpanEl.append(makeNewJqueryElement('i', 'large material-icons '+sunIconClass, 'hero_sun', sunIcon));
     
-    // add temp, wind speed, humidity and uvi
-    contentSpanEl.append(makeNewJqueryElement('p', 'hero_text', null, current_temp.toString()+"°​C"));
-    contentSpanEl.append(makeNewJqueryElement('p', 'hero_wind', null, weather.wind_speed.toString()+"m/s"));
-    contentSpanEl.append(makeNewJqueryElement('p', 'hero_humidity', null, weather.humidity.toString()+"%"))
-    contentSpanEl.append(makeNewJqueryElement('p', 'hero_uv btn '+uv_index_color, null, weather.uvi.toString()+"%"));
-
+    //<div class="card">
+    let cardDiv = makeNewJqueryElement('div', 'card');
+        //<div class="card-image">
+        let cardImageDiv = makeNewJqueryElement('div', 'card-image');
+            //<img src=weather.parallax>
+            let cardImgEl = makeNewJqueryElement('img');
+            cardImgEl.attr('src', weatherDetail.parallax_url);
+            //<div class="card-title" id="hero_card_text">
+            let cardTitleEl = makeNewJqueryElement('div', 'card-title', 'hero_card_text');
+                //<div class="row">
+                let row1 = makeNewJqueryElement('div', 'row');
+                    //<div class="col">
+                        //city.name + city.country 
+                    let div1 = makeNewJqueryElement('div', 'col', null, city.name+' '+city.country)
+                    //</div>
+                    //<div class="col">
+                    let div2 = makeNewJqueryElement('div', 'col');
+                        //<img class="hero_icon" src=weatherIcon>
+                        let img1 = makeNewJqueryElement('img', 'hero_icon');
+                        img1.attr('src', weatherIcon);
+                    div2.append(img1)
+                    //</div>
+                    //<div class="col">
+                    let div3 = makeNewJqueryElement('div', 'col');
+                        //<i class="large material-icons "+sunIconClass id="hero_sun">sunIcon</i>
+                        let icon1 = makeNewJqueryElement('i', 'large material-icons '+sunIconClass, 'hero_sun', sunIcon);
+                    div3.append(icon1);
+                    //</div>
+                row1.append(div1, div2, div3)
+                //</div>
+                //<br>
+                let br1 = makeNewJqueryElement('br');
+                //<br>
+                let br2 = makeNewJqueryElement('br');
+            cardTitleEl.append(row1, br1, br2);
+            //</div>
+            //<div class="card-content valign-wrapper">
+            let cardContentDiv = makeNewJqueryElement('div', 'card-content valign-wrapper')
+                //<div class="col">
+                let div5 = makeNewJqueryElement('div', 'col')
+                    //<span class="hide-on-med-and-down">currentDateDisplay</span>
+                    let span1 = makeNewJqueryElement('span', 'hide-on-med-and-down', null, currentDateDisplay)
+                    //currentTimeDisplay -- this is just text inside the div after the span for reactive reasons
+                    div5.text(currentTimeDisplay);
+                div5.append(span1);
+                //</div>
+                //<div class="col">
+                let div6 = makeNewJqueryElement('div', 'col');
+                    div6.text(current_temp+"("+currentFeelsLike+")");
+                    //current_time +"("+currentFeelsLike+")"
+                //</div>
+                //<div class="col">
+                let div7 = makeNewJqueryElement('div', 'col', null, "Wind "+windSpeed);
+                    //"Wind"+windSpeed
+                //</div>
+                //<div class="col">
+                let div8 = makeNewJqueryElement('div', 'col', null, "Humidity "+currentHumidity);
+                   //"Humidity "+currentHumidity
+                //</div>
+                //<div class="col">
+                let div9 = makeNewJqueryElement('div', 'col');
+                    //<p class="hero_uv btn black-text "+uvIndexClassColor>
+                    let p1 = makeNewJqueryElement('p', 'hero_uv btn black-text '+uvIndexClassColor, null)
+                        //<span class="hide-on-med-and-down">UVI</span>currentUVI
+                        // let span2 = makeNewJqueryElement('span', 'hide-on-med-and-down', null, 'UVI');
+                        let p2 = makeNewJqueryElement('p', null, null, 'Uv '+currentUVI);
+                        p1.append(p2);
+                    //</p>
+                div9.append(p1)
+                //</div>
+            cardContentDiv.append(div5, div6, div7, div8, div9);
+            //</div>  
+        cardImageDiv.append(cardImgEl);
+        cardImageDiv.append(cardTitleEl);
+        cardImageDiv.append(cardContentDiv)
+        //</div>
+    cardDiv.append(cardImageDiv);
+    //</div>
+    
     // reset hero to empty
     weatherHero.text("");
+
     // append new hero card
-    weatherHero.append(cardEl);
+    weatherHero.append(cardDiv);
 
     // render forecast cards below
     renderForecast(data);
