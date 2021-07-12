@@ -23,6 +23,10 @@ main {
     cursor: default;
 }
 
+.forecast_reveal_text{
+    font-size: 1.3rem;
+}
+
 /* #hero_card_text{
     background-color: black;
     border-radius: 25px;
